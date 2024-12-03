@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Add Product - Small Business Marketplace</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Add a New Product</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products">View Products</a>
+    </nav>
+  </header>
+  <form action="/products/add" method="POST">
+    <input type="text" name="title" placeholder="Product Title" required>
+    <input type="url" name="image" placeholder="Image" required>
+    <textarea name="description" placeholder="Product Description" required></textarea>
+    <input type="text" name="category" placeholder="Category" required>
+    <input type="number" name="price" placeholder="Price" required>
+    <input type="submit" value="Add Product" class="form-btn">
+  </form>
+  <footer>
+    <p>&copy; 2024 Small Business Marketplace. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

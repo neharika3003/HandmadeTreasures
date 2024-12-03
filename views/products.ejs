@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Small Business Marketplace</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Our Products</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products/add">Add Product</a>
+    </nav>
+  </header>
+
+  <!-- Combined Filter Form -->
+  <div class="filter-container">
+    <form action="/products" method="GET">
+      <div class="filter-section">
+        <input type="text" name="search" placeholder="Search products by title" value="<%= searchQuery %>" />
+      </div>
+      <div class="filter-section">
+        <select name="category">
+          <option value="">All Categories</option>
+          <option value="resin" <% if (category === 'resin') { %> selected <% } %>>Resin Art</option>
+          <option value="candles" <% if (category === 'candles') { %> selected <% } %>>Handmade Candles</option>
+          <option value="painting" <% if (category === 'painting') { %> selected <% } %>>Paintings</option>
+          <!-- Add more categories as needed -->
+        </select>
+      </div>
+      <div class="filter-section">
+        <input type="number" name="minPrice" placeholder="Min Price" value="<%= minPrice %>" />
+        <input type="number" name="maxPrice" placeholder="Max Price" value="<%= maxPrice %>" />
+      </div>
+      <div class="filter-section">
+        <button type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="container products">
+    <% products.forEach((product) => { %>
+      <div class="product-card">
+        <!-- Product Image -->
+        <img src="<%= product.image %>" alt="<%= product.title %>" />
+        
+        <!-- Product Title (Link to Product Detail Page) -->
+        <h2><a href="/products/product/<%= product._id %>"><%= product.title %></a></h2>
+
+        <!-- Product Description -->
+        <p><%= product.description %></p>
+
+        <!-- Product Category -->
+        <p>Category: <%= product.category %></p>
+
+        <!-- Product Price -->
+        <p>Price: $<%= product.price %></p>
+          
+        <!-- Add to Cart Form -->
+        <form action="/cart/add" method="POST">
+          <input type="hidden" name="productId" value="<%= product._id %>" />
+          <label for="quantity">Quantity:</label>
+          <input type="number" name="quantity" value="1" min="1" required />
+          <button type="submit">Add to Cart</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Small Business Marketplace. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

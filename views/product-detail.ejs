@@ -1,0 +1,44 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= product.title %> - Product Details</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1><%= product.title %></h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products">Back to Products</a>
+    </nav>
+  </header>
+
+  <div class="product-detail-container">
+    <div class="product-detail">
+        <img style="width:50%; height:50%" src="<%= product.image %>" alt="<%= product.title %>" />
+      <div class="product-info">
+        <p><strong>Description:</strong> <%= product.description %></p>
+        <p><strong>Price:</strong> $<%= product.price %></p>
+
+        <!-- Add to Cart Form -->
+        <form action="/cart/add" method="POST">
+          <input type="hidden" name="productId" value="<%= product._id %>" />
+          <label for="quantity">Quantity:</label>
+          <input type="number" name="quantity" value="1" min="1" required />
+          <button type="submit">Add to Cart</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Small Business Marketplace. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
+

@@ -1,0 +1,444 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f3f4f7; /* Lighter background */
+  color: #2d3436; /* Darker text color */
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: #2c3e50; /* Darker color for headings */
+}
+
+a {
+  text-decoration: none;
+  color: #e74c3c; /* Vibrant red for links */
+}
+
+a:hover {
+  color: #c0392b; /* Slightly darker red on hover */
+}
+
+button, input[type="submit"] {
+  background-color: #e74c3c; /* Vibrant red for primary buttons */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  transform: translateY(-2px); /* Slight hover lift */
+}
+
+button:focus, input[type="submit"]:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.7); /* Focus effect */
+}
+
+/* Header Styles */
+header {
+  background-color: #34495e; /* Dark blue for header */
+  padding: 20px 30px;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+nav a {
+  margin: 0 15px;
+  font-size: 18px;
+  color: white;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #ecf0f1; /* Light color on hover */
+}
+
+/* Home Page */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.home-btn {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  padding: 18px 35px;
+  background-color: #2ecc71; /* Green for primary action button */
+  border-radius: 8px;
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+}
+
+.home-btn:hover {
+  background-color: #27ae60; /* Darker green on hover */
+}
+
+/* Products Page */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin: 20px 20px;
+}
+
+.product-card {
+  background: #ffffff; /* White background for cards */
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: auto; /* Let the height adjust according to the content */
+  min-height: 280px; /* Ensure a minimum height so that cards aren't too small */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-card:hover {
+  transform: scale(1.05); /* Slight hover scale effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+}
+
+.product-card img {
+  max-width: 100%;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.product-card h2 {
+  font-size: 20px;
+  margin: 10px 0;
+  color: #2c3e50;
+}
+
+.product-card p {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-bottom: 10px; /* Space for description */
+}
+
+.product-card .price {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: auto; /* Push the price or button to the bottom */
+  color: #2ecc71; /* Green price for contrast */
+}
+
+.product-card .buy-now-btn {
+  padding: 12px 20px;
+  background-color: #2ecc71; /* Green for buttons */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-card .buy-now-btn:hover {
+  background-color: #27ae60; /* Darker green for hover effect */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+/* Add Product Form */
+form {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+form input, form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+form input:focus, form textarea:focus {
+  border-color: #3498db; /* Blue border on focus */
+  outline: none;
+}
+
+form textarea {
+  resize: vertical;
+  height: 120px;
+}
+
+.form-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Footer Styles */
+footer {
+  background: #34495e; /* Dark footer */
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+  font-size: 14px;
+}
+
+/* Signup Button */
+.signup-btn {
+  color: white;
+  background-color: #e74c3c; /* Vibrant red for signup button */
+  padding: 12px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Mobile and Tablet Responsiveness */
+@media (max-width: 768px) {
+  .products {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .product-card {
+    padding: 15px;
+  }
+
+  .home-btn, .signup-btn {
+    width: 100%;
+    padding: 14px 0;
+  }
+}
+
+/* Filter form container */
+.filter-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter sections */
+.filter-section {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.filter-section input,
+.filter-section select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filter-section button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.filter-section button:hover {
+  background-color: #0056b3;
+}
+
+/* Product Card */
+.product-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.product-card h2 {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.product-card p {
+  font-size: 16px;
+  color: #555;
+}
+
+.product-card button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-card button:hover {
+  background-color: #218838;
+}
+
+/* Product Detail Page Styles */
+
+/* General container for the product detail page */
+.product-detail-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling the product's main section */
+.product-detail {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* Image styling */
+.product-detail-image {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  max-height: 400px;
+}
+
+/* Product info styling */
+.product-info {
+  flex: 1;
+  max-width: 600px;
+  padding: 20px;
+  /* margin-top: auto; */
+}
+
+/* Product title styling */
+.product-info h1 {
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+/* Category and price */
+.product-info h2 {
+  font-size: 20px;
+  color: #3498db; /* Blue for category */
+  margin-bottom: 20px;
+}
+
+.product-info p {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+}
+
+/* Styling the add-to-cart form */
+.product-info form {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-info label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #2c3e50;
+}
+
+.product-info input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.product-info button {
+  padding: 12px 20px;
+  background-color: #e74c3c; /* Red button for add-to-cart */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product-info button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+.product-info button:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.7); /* Focus effect */
+}
+
+/* Styling for back to products link */
+nav a {
+  font-size: 18px;
+  color: #e74c3c;
+  font-weight: 500;
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #c0392b; /* Slightly darker red on hover */
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+footer p {
+  font-size: 16px;
+}
+
