@@ -28,6 +28,15 @@
             </td>
             <td>$<%= order.totalAmount %></td>
             <td><%= order.status %></td>
+            <td>
+              <% if (order.status !== 'Cancelled') { %>
+                <form action="/orders/cancel" method="POST" style="display:inline;">
+                  <input type="hidden" name="orderId" value="<%= order._id %>">
+                  <input type="hidden" name="userId" value="<%= userId %>"> <!-- Using userId passed from route -->
+                  <button type="submit">Cancel Order</button>
+                </form>
+              <% } %>
+            </td>
           </tr>
         <% }); %>
       </tbody>

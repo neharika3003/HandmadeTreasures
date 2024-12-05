@@ -9,7 +9,6 @@ const User = require('../models/User');
 const { sendEmail } = require('../utils/emailService');
 
 
-
 router.get("/signup", authController.getSignup);
 router.post("/signup", authController.postSignup);
 router.get("/login", authController.getLogin);
@@ -21,30 +20,32 @@ router.get("/logout", authController.logout);
   // routes/auth.js
 // Handle email verification
 router.get('/verify-email/:token', async (req, res) => {
-    const { token } = req.params;
-    
-    try {
+  console.log('Verification route hit!');
+  const { token } = req.params;
+
+  try {
       // Find the user by the verification token
       const user = await User.findOne({
-        verificationToken: token,
-        tokenExpiry: { $gt: Date.now() }, // Ensure token is not expired
+          verificationToken: token,
+          tokenExpiry: { $gt: Date.now() }, // Ensure token is not expired
       });
-      
-      if (!user) return res.status(400).send('Invalid or expired token.');
-      
+
+      if (!user) {
+          return res.status(400).send('Invalid or expired token.');
+      }
+
       // Mark user as verified
       user.isVerified = true;
-      user.verificationToken = undefined;  // Clear the token after successful verification
-      user.tokenExpiry = undefined;  // Clear token expiry
-      
+      user.verificationToken = undefined; // Clear the token after successful verification
+      user.tokenExpiry = undefined; // Clear token expiry
       await user.save();
-      
+
       res.status(200).send('Email successfully verified! You can now log in.');
-    } catch (err) {
-      console.error(err);
+  } catch (err) {
+      console.error('Error verifying email:', err);
       res.status(500).send('Error verifying email.');
-    }
-  });
+  }
+});
   
 
   router.post('/resend-verification', async (req, res) => {
@@ -67,7 +68,7 @@ router.get('/verify-email/:token', async (req, res) => {
       await user.save();
   
       // Create the verification link
-      const verifyLink = `http://localhost:3000/verify-email/${verificationToken}`;
+      const verifyLink = `http://localhost:3000/auth/verify-email/${verificationToken}`;
       console.log("Verification link:", verifyLink); // Log the link for debugging
   
       // Send the verification email

@@ -57,7 +57,7 @@ exports.postSignup = async (req, res) => {
     await newUser.save();
     
     // Send verification email
-    const verifyLink = `http://localhost:3000/verify-email/${verificationToken}`;
+    const verifyLink = `http://localhost:3000/auth/verify-email/${verificationToken}`;
     await sendEmail(
       email,
       'Email Verification',

@@ -1,25 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Home - Small Business Marketplace</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Handmade Treasures</title>
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header>
-    <h1>Small Business Marketplace</h1>
+    <h1>Handmade Treasures</h1>
     <nav>
       <a href="/products">Browse Products</a>
       <a href="/auth/signup" class="btn">Signup</a>
     </nav>
   </header>
+  
   <div class="container">
-    <h2>Welcome to Small Business Marketplace</h2>
+    <h2>Welcome to Handmade Treasures</h2>
     <p>Your one-stop platform to buy and sell unique handmade products.</p>
     <a class="home-btn" href="/products">Start Exploring</a>
   </div>
+
+  <section id="top-picks">
+    <h2>Top Picks of the Hour</h2>
+    <div class="top-pick-items">
+      <% topPicks.forEach(item => { %>
+        <div class="top-pick">
+          <img src="<%= item.image %>" alt="<%= item.title %>" class="top-pick-img">
+          <h3><%= item.title %></h3>
+          <p><%= item.description %></p>
+          <a href="/products/product/<%= item._id %>" class="btn">View Product</a>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+
   <footer>
     <p>&copy; 2024 Small Business Marketplace. All Rights Reserved.</p>
   </footer>
 </body>
 </html>
+
 
