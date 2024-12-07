@@ -53,6 +53,10 @@ app.use("/cart", cartRoutes);
 const orderRoutes = require('./routes/orders');
 app.use('/orders', orderRoutes);
 
+const userRoutes = require('./routes/user');
+app.use('/user', userRoutes);
+
+
 
 // Server
 const PORT = process.env.PORT || 3000;

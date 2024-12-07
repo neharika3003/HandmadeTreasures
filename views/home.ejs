@@ -11,7 +11,16 @@
     <h1>Handmade Treasures</h1>
     <nav>
       <a href="/products">Browse Products</a>
-      <a href="/auth/signup" class="btn">Signup</a>
+      
+      <% if (user) { %> 
+        <!-- Show profile and logout if user is logged in -->
+        <a href="/user/profile" class="btn">Profile</a>
+        <a href="/auth/logout" class="btn">Logout</a>
+      <% } else { %>
+        <!-- Show signup if user is not logged in -->
+        <a href="/auth/signup" class="btn">Signup</a>
+        <a href="/auth/login" class="btn">Login</a>
+      <% } %>
     </nav>
   </header>
   
@@ -40,5 +49,6 @@
   </footer>
 </body>
 </html>
+
 
 

@@ -16,7 +16,7 @@ const getTopPicks = async () => {
 router.get('/', async (req, res) => {
   try {
     const topPicks = await getTopPicks();
-    res.render('home', { topPicks });
+    res.render("home", { user: req.session.user, topPicks });
   } catch (error) {
     console.error('Error fetching top picks:', error);
     res.status(500).send('Error fetching top picks');
