@@ -11,10 +11,15 @@
     <h1>Handmade Treasures</h1>
     <nav>
       <a href="/products">Browse Products</a>
-      
-      <% if (user) { %> 
+      <!-- Conditional rendering for Seller Profile link -->
+
+      <% if (user && user.role==='buyer') { %> 
         <!-- Show profile and logout if user is logged in -->
         <a href="/user/profile" class="btn">Profile</a>
+        <a href="/auth/logout" class="btn">Logout</a>
+      <%} else if (user && user.role === 'seller') { %>
+        <a href="/user/seller-profile">Seller Profile</a>
+        <a href="/seller/orders" class="btn">View Orders</a> <!-- Link to seller's orders -->
         <a href="/auth/logout" class="btn">Logout</a>
       <% } else { %>
         <!-- Show signup if user is not logged in -->
@@ -27,6 +32,7 @@
   <div class="container">
     <h2>Welcome to Handmade Treasures</h2>
     <p>Your one-stop platform to buy and sell unique handmade products.</p>
+    <img src="" alt="homepage img" style="width: 95vw;height: 70vh;">
     <a class="home-btn" href="/products">Start Exploring</a>
   </div>
 

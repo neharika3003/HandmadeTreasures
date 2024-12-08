@@ -40,7 +40,7 @@ router.get('/verify-email/:token', async (req, res) => {
       user.tokenExpiry = undefined; // Clear token expiry
       await user.save();
 
-      res.status(200).send('Email successfully verified! You can now log in.');
+      res.redirect("/auth/login");
   } catch (err) {
       console.error('Error verifying email:', err);
       res.status(500).send('Error verifying email.');

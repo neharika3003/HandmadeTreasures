@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Order Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #4CAF50;
+    }
+
+    h3, h4 {
+      color: #333;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    p, ul {
+      margin: 5px 0;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    select {
+      padding: 5px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    a {
+      text-decoration: none;
+      color: #4CAF50;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Order Details</h1>
+
+  <div class="container">
+    <div class="section">
+      <h3>Order Information</h3>
+      <p><strong>Order ID:</strong> <%= order._id %></p>
+      <p><strong>Buyer Name:</strong> <%= order.buyerId.name %></p> <!-- Updated -->
+      <p><strong>Status:</strong> <%= order.status %></p>
+    </div>
+    
+    <div class="section">
+      <h3>Shipping Information</h3>
+      <p><strong>Address:</strong> <%= order.buyerId?.address || 'Not provided' %></p>
+      <p><strong>Contact:</strong> <%= order.buyerId?.contact || 'Not provided' %></p>
+    </div>
+
+    <div class="section">
+      <h3>Ordered Products</h3>
+      <ul>
+        <% order.items.forEach(item => { %>
+          <% if (item.productId) { %>
+            <li><strong><%= item.productId.title %></strong> - Quantity: <%= item.quantity %></li>
+          <% } else { %>
+            <li>Product details unavailable</li>
+          <% } %>
+        <% }); %>
+      </ul>
+    </div>
+
+    <form action="/seller/orders/<%= order._id %>/status" method="POST">
+      <h4>Update Status</h4>
+      <select name="status">
+        <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+        <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+        <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+        <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+      </select>
+      <button type="submit">Update Status</button>
+    </form>
+
+    <a href="/seller/orders">Back to Orders</a>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Your Orders</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #4CAF50;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    table thead {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    table th, table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    table th {
+      font-weight: bold;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    form {
+      display: inline-block;
+    }
+
+    select {
+      padding: 5px;
+      margin-right: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .no-orders {
+      text-align: center;
+      font-size: 18px;
+      color: #777;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Orders</h1>
+  <% if (orders.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Products</th>
+          <th>Buyer</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach(order => { %>
+          <tr>
+            <td><%= order._id %></td>
+            <td>
+              <% order.items.forEach(item => { %>
+                <% if (item.productId) { %>
+                  <p><strong><%= item.productId.title %></strong> - <%= item.quantity %></p>
+                <% } else { %>
+                  <p>Product details unavailable</p>
+                <% } %>
+              <% }); %>
+            </td>
+            <td><%= order.buyerId ? order.buyerId.name : "Unknown Buyer" %></td>
+            <td><%= order.status %></td>
+            <td>
+              <a href="/seller/orders/<%= order._id %>">View Details</a>
+              <form action="/seller/orders/<%= order._id %>/status" method="POST">
+                <select name="status">
+                  <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                  <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                  <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                </select>
+                <button type="submit">Update Status</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div class="no-orders">
+      <p>No orders yet.</p>
+    </div>
+  <% } %>
+</body>
+</html>

@@ -6,7 +6,8 @@ const productSchema = new mongoose.Schema({
     category: { type: String, required: true },
     price: { type: Number, required: true },
     image: [ String ], // Add this field for image URL
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    // createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    sellerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
 

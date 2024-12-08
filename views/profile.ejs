@@ -20,13 +20,20 @@
     <form action="/user/profile" method="POST">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" value="<%= user.name %>" required>
-      
+  
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" value="<%= user.email %>" required>
-      
+  
+      <label for="address">Address:</label>
+      <textarea id="address" name="address"><%= user.address || '' %></textarea>
+  
+      <label for="contact">Contact Number:</label>
+      <input type="text" id="contact" name="contact" value="<%= user.contact || '' %>" />
+  
       <button type="submit" class="btn">Update</button>
     </form>
   </div>
+  
 
   <footer>
     <p>&copy; 2024 Handmade Treasures. All Rights Reserved.</p>

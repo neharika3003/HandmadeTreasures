@@ -10,14 +10,64 @@ function ensureBuyer(req, res, next) {
   res.redirect("/auth/login");
 }
 
+// Middleware to ensure the user is a seller
+function ensureSeller(req, res, next) {
+  if (req.session.user && req.session.user.role === 'seller') {
+    return next();
+  }
+  res.redirect('/auth/login'); // Redirect if not a seller
+}
+
+
 // Display profile page
 router.get("/profile", ensureBuyer, (req, res) => {
   res.render("profile", { user: req.session.user });
 });
 
-// Handle profile update
+// Render seller profile page
+router.get('/seller-profile', ensureSeller, async (req, res) => {
+  try {
+    const user = await User.findById(req.session.user._id);
+    res.render('sellerProfile', { user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading seller profile');
+  }
+});
+
+// Handle seller profile update
+router.post('/seller-profile', ensureSeller, async (req, res) => {
+  try {
+    const { businessName, businessAddress, paymentDetails, contact } = req.body;
+    const user = await User.findById(req.session.user._id);
+
+    // Update seller information
+    user.businessName = businessName;
+    user.businessAddress = businessAddress;
+    user.paymentDetails = paymentDetails;
+    user.contact = contact;
+
+    await user.save();
+    res.redirect('/user/seller-profile'); // Redirect to profile page after update
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating profile');
+  }
+});
+
+// Handle buyer profile update
 router.post("/profile", ensureBuyer, async (req, res) => {
-  const { name, email } = req.body;
+  try {
+    const user = await User.findById(req.session.user._id); // Fetch user data
+    if (!user) {
+      return res.redirect('/auth/login'); // Redirect if user not found
+    }
+    res.render('profile', { user }); // Pass user data to the template
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error loading profile page.');
+  }
+  const { name, email, address, contact } = req.body;
 
   // Input validation
   if (!name || !email) {
@@ -39,10 +89,11 @@ router.post("/profile", ensureBuyer, async (req, res) => {
     // Update the user in the database
     const updatedUser = await User.findByIdAndUpdate(
       req.session.user._id,
-      { name, email },
+      { name, email, address, contact },
       { new: true, runValidators: true }
     );
 
+    req.session.user = updatedUser; // Update session details
     if (!updatedUser) {
       return res.status(404).send("User not found");
     }
@@ -51,7 +102,7 @@ router.post("/profile", ensureBuyer, async (req, res) => {
     req.session.user.name = updatedUser.name;
     req.session.user.email = updatedUser.email;
 
-    res.redirect("/profile");
+    res.render("profile");
   } catch (err) {
     console.error("Error updating profile:", err);
     res.status(500).send("Error updating profile");

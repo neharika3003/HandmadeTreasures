@@ -56,9 +56,6 @@ app.use('/orders', orderRoutes);
 const userRoutes = require('./routes/user');
 app.use('/user', userRoutes);
 
-const sellerRoutes = require('./routes/seller');
-app.use('/seller', sellerRoutes);
-
 
 
 // Server
@@ -66,7 +63,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-
-
-

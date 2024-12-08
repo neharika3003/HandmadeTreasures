@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Profile</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Seller Profile</h1>
+    <nav>
+      <a href="/products">Browse Products</a>
+      <a href="/auth/logout" class="btn">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Update Business Information</h2>
+    <form action="/user/seller-profile" method="POST">
+      <label for="businessName">Business Name:</label>
+      <input type="text" id="businessName" name="businessName" value="<%= user.businessName %>" required>
+      
+      <label for="businessAddress">Business Address:</label>
+      <input type="text" id="businessAddress" name="businessAddress" value="<%= user.businessAddress %>" required>
+      
+      <label for="paymentDetails">Payment Details:</label>
+      <input type="text" id="paymentDetails" name="paymentDetails" value="<%= user.paymentDetails %>" required>
+      
+      <label for="contact">Contact Number:</label>
+      <input type="text" id="contact" name="contact" value="<%= user.contact %>" pattern="[0-9]{10}" required>
+      
+      <button type="submit" class="btn">Update Profile</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Handmade Treasures. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

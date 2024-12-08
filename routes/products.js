@@ -107,7 +107,7 @@ router.post("/add", ensureSeller, async (req, res) => {
       category,
       price,
       image,
-      createdBy: req.session.user._id, // Associate product with the seller
+      sellerId: req.session.user._id, // Associate product with the logged-in seller
     });
     await newProduct.save();
     res.redirect("/products");
