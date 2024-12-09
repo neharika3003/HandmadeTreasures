@@ -76,20 +76,29 @@ router.get('/orders/:id',async (req, res) => {
   });
 
 // Update order status (e.g., Shipped, Delivered, Cancelled)
-router.post('/orders/:id/status', async (req, res) => {
+router.post('/orders/:id/status', ensureSeller, async (req, res) => {
   const { status } = req.body;
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate('items.productId');
     if (!order) return res.status(404).send('Order not found');
-    
+
+    // Verify that the seller owns at least one product in the order
+    const sellerOwnsOrder = order.items.some(item => 
+      item.productId.sellerId.toString() === req.session.user._id
+    );
+
+    if (!sellerOwnsOrder) return res.status(403).send('Unauthorized');
+
+    // Update order status
     order.status = status;
     await order.save();
-    
+
     res.redirect(`/seller/orders/${order._id}`);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error updating order status');
   }
 });
+
 
 module.exports = router;

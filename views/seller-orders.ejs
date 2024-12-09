@@ -116,13 +116,13 @@
               <a href="/seller/orders/<%= order._id %>">View Details</a>
               <form action="/seller/orders/<%= order._id %>/status" method="POST">
                 <select name="status">
-                  <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Placed" <%= order.status === 'Placed' ? 'selected' : '' %>>Placed</option>
                   <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
                   <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
                   <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
                 </select>
                 <button type="submit">Update Status</button>
-              </form>
+              </form>              
             </td>
           </tr>
         <% }); %>

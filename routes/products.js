@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
+const ensureAuthenticated = require('../middleware/authMiddleware'); // Import the middleware
+const ensureBuyerOfProduct = require("../middleware/ensureBuyerOfProduct");
+
+router.get('/protected-route', ensureAuthenticated, (req, res) => {
+  res.send('This is a protected route, only accessible to logged-in users!');
+});
+
 
 // Middleware to ensure only sellers can access certain routes
 function ensureSeller(req, res, next) {
@@ -116,6 +123,37 @@ router.post("/add", ensureSeller, async (req, res) => {
     res.status(500).send("Error adding product");
   }
 });
+
+
+// Submit a review
+router.post('/:id/review', ensureAuthenticated,ensureBuyerOfProduct, async (req, res) => {
+  const { rating, comment } = req.body;
+  const productId = req.params.id;
+
+  try {
+    // Fetch the product
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).send('Product not found');
+    }
+
+    // Add the review
+    product.reviews.push({
+      userId: req.session.user._id,
+      userName: req.session.user.name,
+      rating: parseInt(rating),
+      comment,
+    });
+
+    await product.save();
+
+    res.render('product-detail', { product });
+  } catch (err) {
+    console.error('Error submitting review:', err);
+    res.status(500).send('Error submitting review');
+  }
+});
+
 
 module.exports = router;
 
