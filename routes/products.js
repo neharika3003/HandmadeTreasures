@@ -50,6 +50,7 @@ router.get("/", async (req, res) => {
       minPrice,
       maxPrice,
       categories,
+      user: req.session.user // Assuming `user` is stored in `req.session`
     });
   } catch (err) {
     console.error(err);

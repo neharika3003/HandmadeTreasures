@@ -5,44 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Products - Small Business Marketplace</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
   <header>
     <h1>Our Products</h1>
     <nav>
       <a href="/">Home</a>
-      <a href="/products/add">Add Product</a>
-      <a href="/cart">Your Cart</a>
-      <a href="/orders">Orders</a>
+      <% if (user && user.role==='seller') { %> 
+        <a href="/products/add">Add Product</a>
+      <%} else{ %>
+        <a href="/cart">Your Cart</a>
+        <a href="/orders">Orders</a>
+      <% } %>
     </nav>
   </header>
 
   <!-- Combined Filter Form -->
-  <div class="filter-container">
-    <form action="/products" method="GET">
-      <div class="filter-section">
-        <input type="text" name="search" placeholder="Search products by title" value="<%= searchQuery %>" />
-      </div>
-      <div class="filter-section">
-        <select name="category">
-          <option value="">All Categories</option>
-          <option value="resin" <% if (category === 'resin') { %> selected <% } %>>Resin Art</option>
-          <option value="candles" <% if (category === 'candles') { %> selected <% } %>>Handmade Candles</option>
-          <option value="painting" <% if (category === 'painting') { %> selected <% } %>>Paintings</option>
-          <option value="Drawing" <% if (category === 'drawing') { %> selected <% } %>>Drawing</option>
-          <!-- Add more categories as needed -->
-        </select>
-      </div>
-      <div class="filter-section">
-        <input type="number" name="minPrice" placeholder="Min Price" value="<%= minPrice %>" />
-        <input type="number" name="maxPrice" placeholder="Max Price" value="<%= maxPrice %>" />
-      </div>
-      <div class="filter-section">
-        <button type="submit">Search</button>
-      </div>
+  <div class="container mt-4" style="padding: 0rem;">
+    <form action="/products" method="GET" class="d-flex justify-content-between align-items-center w-100" style="max-width:1000px">
+      <!-- Search input -->
+      <input
+        type="text"
+        name="search"
+        class="form-control"
+        placeholder="Search products by title"
+        value="<%= searchQuery %>"
+        style="height: 30px; max-width: 400px; border-radius: 4px;margin-right: 24px;"
+      />
+  
+      <!-- Category dropdown -->
+      <select name="category" class="form-select" style="height: 30px; max-width: 120px;border-radius: 4px;margin-right: 20px;">
+        <option value="">All Categories</option>
+        <option value="resin" <% if (category === 'resin') { %> selected <% } %>>Resin Art</option>
+        <option value="candles" <% if (category === 'candles') { %> selected <% } %>>Candles</option>
+        <option value="painting" <% if (category === 'painting') { %> selected <% } %>>Paintings</option>
+        <option value="drawing" <% if (category === 'drawing') { %> selected <% } %>>Drawing</option>
+      </select>
+  
+      <!-- Price filters -->
+      <input
+        type="number"
+        name="minPrice"
+        class="form-control ms-2"
+        placeholder="Min Price"
+        value="<%= minPrice %>"
+        style="height: 30px; width: 60px; border-radius: 4px;"
+      />
+      <span class="ms-2 me-2">-</span>
+      <input
+        type="number"
+        name="maxPrice"
+        class="form-control"
+        placeholder="Max Price"
+        value="<%= maxPrice %>"
+        style="height: 30px; width: 90px; border-radius: 4px;margin-right: 20px;"
+      />
+  
+      <!-- Search button -->
+      <button type="submit" class="btn btn-primary ms-2" style="height: 30px; border-radius: 5px;">
+        <i class="bi bi-search"></i> Search
+      </button>
     </form>
   </div>
-
+  
   <div class="container products">
     <% products.forEach((product) => { %>
       <div class="product-card">
@@ -59,7 +85,7 @@
         <p>Category: <%= product.category %></p>
 
         <!-- Product Price -->
-        <p>Price: $<%= product.price %></p>
+        <p>Price: &#8377;<%= product.price %></p>
           
         <!-- Add to Cart Form -->
         <form class="product-add-to-cart" action="/cart/add" method="POST">

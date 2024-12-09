@@ -5,6 +5,150 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= product.title %> - Product Details</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .star-rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+      margin: 10px 0;
+    }
+  
+    .star-rating input {
+      display: none; /* Hide radio buttons */
+    }
+  
+    .star-rating label {
+      font-size: 2rem;
+      color: #ddd; /* Default star color */
+      cursor: pointer;
+    }
+  
+    /* Highlight stars when checked */
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: #ffcc00; /* Star color when hovered or selected */
+    }
+  </style>
+  <style>
+    /* General Reviews Section Styling */
+    .reviews-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+  
+    .reviews-section h2 {
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+      color: #333;
+      text-align: center;
+      font-weight: bold;
+    }
+  
+    /* Styling for the Reviews List */
+    .reviews-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  
+    .review-item {
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .review-item:last-child {
+      margin-bottom: 0;
+    }
+  
+    /* Review User and Rating Styling */
+    .review-user {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 5px;
+    }
+  
+    .review-rating {
+      font-size: 1.1rem;
+      color: #ffcc00; /* Star color */
+    }
+  
+    /* Review Comment Styling */
+    .review-comment {
+      font-size: 1rem;
+      color: #666;
+      margin: 5px 0 0 0;
+    }
+  
+    /* Separator Styling */
+    .review-item hr {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 10px 0;
+    }
+  
+    /* No Reviews Message Styling */
+    .no-reviews {
+      font-size: 1.2rem;
+      color: #999;
+      text-align: center;
+      padding: 20px 0;
+      border: 1px dashed #ddd;
+      background-color: #fff;
+      border-radius: 6px;
+    }
+
+  </style>
+  
+  <script>
+    const reviewForm = document.getElementById('reviewForm');
+  
+    reviewForm.addEventListener('submit', async (event) => {
+      event.preventDefault(); // Prevent default form submission
+  
+      const rating = document.querySelector('input[name="rating"]:checked');
+      const comment = document.getElementById('comment').value;
+      const productId = '<%= product._id %>'; // Replace with actual product ID dynamically
+  
+      if (!rating) {
+        alert('Please select a rating.');
+        return;
+      }
+  
+      try {
+        const response = await fetch(`/products/${productId}/review`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            rating: rating.value,
+            comment,
+          }),
+        });
+  
+        const result = await response.json();
+  
+        if (result.success) {
+          alert(result.message); // Show success alert
+          window.location.reload(); // Reload to show updated reviews
+        } else {
+          alert(result.message); // Show error alert
+        }
+      } catch (error) {
+        console.error('Error submitting review:', error);
+        alert('An unexpected error occurred. Please try again.');
+      }
+    });
+  </script>
 </head>
 <body>
   <header>
@@ -17,10 +161,10 @@
 
   <div class="product-detail-container">
     <div class="product-detail">
-        <img style="width:50%; height:50%" src="<%= product.image %>" alt="<%= product.title %>" />
+        <img style="width:50%; height:30%" src="<%= product.image %>" alt="<%= product.title %>" />
       <div class="product-info">
         <p><strong>Description:</strong> <%= product.description %></p>
-        <p><strong>Price:</strong> $<%= product.price %></p>
+        <p><strong>Price:</strong> &#8377;<%= product.price %></p>
 
         <!-- Add to Cart Form -->
         <form action="/cart/add" method="POST">
@@ -36,31 +180,41 @@
     <div class="reviews-section">
       <h2>Customer Reviews</h2>
 
-      <% if (product.reviews && product.reviews.length > 0) { %>
-        <ul>
-          <% product.reviews.forEach(review => { %>
-            <li>
-              <p><strong><%= review.userName %></strong> rated: <%= review.rating %> / 5</p>
-              <p><%= review.comment %></p>
-              <hr />
-            </li>
-          <% }); %>
-        </ul>
-      <% } else { %>
-        <p>No reviews yet. Be the first to review this product!</p>
-      <% } %>
+  <% if (product.reviews && product.reviews.length > 0) { %>
+    <ul class="reviews-list">
+      <% product.reviews.forEach(review => { %>
+        <li class="review-item">
+          <p class="review-user">
+            <strong><%= review.userName %></strong> rated: 
+            <span class="review-rating"><%= review.rating %> / 5</span>
+          </p>
+          <p class="review-comment"><%= review.comment %></p>
+          <!-- <hr /> -->
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
+  <% } %>
 
       <!-- Add Review Form -->
+      <br>
       <h3>Write a Review</h3>
-      <form action="/products/<%= product._id %>/review" method="POST">
-        <label for="rating">Rating:</label>
-        <select name="rating" id="rating" required>
-          <option value="5">5 - Excellent</option>
-          <option value="4">4 - Good</option>
-          <option value="3">3 - Average</option>
-          <option value="2">2 - Poor</option>
-          <option value="1">1 - Very Poor</option>
-        </select>
+      <form id ="reviewForm" action="/products/<%= product._id %>/review" method="POST">
+        <label for="comment">Rating:</label>
+        <div class="star-rating">
+          <!-- Hidden radio buttons replaced by styled stars -->
+          <input type="radio" id="star5" name="rating" value="5" />
+          <label for="star5" title="5 stars">&#9733;</label>
+          <input type="radio" id="star4" name="rating" value="4" />
+          <label for="star4" title="4 stars">&#9733;</label>
+          <input type="radio" id="star3" name="rating" value="3" />
+          <label for="star3" title="3 stars">&#9733;</label>
+          <input type="radio" id="star2" name="rating" value="2" />
+          <label for="star2" title="2 stars">&#9733;</label>
+          <input type="radio" id="star1" name="rating" value="1" />
+          <label for="star1" title="1 star">&#9733;</label>
+        </div>
 
         <label for="comment">Comment:</label>
         <textarea name="comment" id="comment" rows="4" required></textarea>
