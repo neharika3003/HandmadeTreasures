@@ -20,17 +20,17 @@ app.use(
       secret: "secret-key",
       resave: false,
       saveUninitialized: false,
-      store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/SmallBusinessMarketplace" }),
+      store: MongoStore.create({ mongoUrl: "mongodb+srv://batraneharika90:neha3003@cluster0.cdqls.mongodb.net/SmallBusinessMarketplace?retryWrites=true&w=majority&appName=Cluster0" }),
       cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
     })
   );
 
-const MONGO_URI = "mongodb://127.0.0.1:27017/SmallBusinessMarketplace";
+const MONGO_URI = "mongodb+srv://batraneharika90:neha3003@cluster0.cdqls.mongodb.net/SmallBusinessMarketplace?retryWrites=true&w=majority&appName=Cluster0";
 
 // MongoDB Connection
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
+  .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
 // Routes
