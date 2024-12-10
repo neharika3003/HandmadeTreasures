@@ -28,47 +28,82 @@ exports.getSignup = (req, res) => {
 // const { sendEmail } = require('./utils/emailService');  // Assuming email service is in utils folder
 // const User = require('../models/User');  // Path to your User model
 
-// POST Signup Logic
+
+// POST Signup with OTP
 exports.postSignup = async (req, res) => {
   const { name, email, password, role } = req.body;
-  
+
   try {
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).send('User already exists.');
-    
+    if (existingUser) return res.status(400).send("User already exists.");
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+    const otpExpiry = Date.now() + 15 * 60 * 1000; // OTP expires in 15 minutes
+
     // Create new user object
-    const newUser = new User({ 
-      name, 
-      email, 
-      password: hashedPassword, 
-      role 
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+      verificationToken: otp, // Store OTP
+      tokenExpiry: otpExpiry, // Store OTP expiry
+      isVerified: false, // Default as not verified
     });
-    
-    // Generate verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    newUser.verificationToken = verificationToken;
-    newUser.tokenExpiry = Date.now() + 24 * 60 * 60 * 1000; // Token expires in 24 hours
-    
+
     // Save the user in the database
     await newUser.save();
-    
-    // Send verification email
-    const verifyLink = `http://localhost:3000/auth/verify-email/${verificationToken}`;
+
+    // Send OTP to the user's email
     await sendEmail(
       email,
-      'Email Verification',
-      `<p>Please verify your email by clicking the link below:</p><a href="${verifyLink}">${verifyLink}</a>`
+      "Verify Your Account",
+      `<p>Your OTP for verifying your account is:</p><h3>${otp}</h3><p>This OTP is valid for 15 minutes.</p>`
     );
-    
-    // Send response
-    res.status(200).send('Registration successful! Please check your email to verify your account.');
+
+    // res.status(200).send("Registration successful! Please check your email for the OTP to verify your account.");
+    res.render('verifyOtp');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error registering user.');
+    res.status(500).send("Error registering user.");
+  }
+};
+
+// Render OTP Verification Page
+exports.getVerifyOtp = (req, res) => {
+  res.render("verifyOtp"); // Ensure you have a verifyOtp.ejs file in views
+};
+
+// POST Verify OTP
+exports.postVerifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).send("User not found.");
+
+    // Check if OTP matches and is not expired
+    if (user.verificationToken !== otp || Date.now() > user.tokenExpiry) {
+      return res.status(400).send("Invalid or expired OTP.");
+    }
+
+    // Mark the user as verified
+    user.isVerified = true;
+    user.verificationToken = undefined; // Clear OTP
+    user.tokenExpiry = undefined; // Clear expiry
+    await user.save();
+
+    // res.status(200).send("Account verified successfully! You can now log in.");
+    res.render('login');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error verifying account.");
   }
 };
 
