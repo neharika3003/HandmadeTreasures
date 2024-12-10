@@ -13,7 +13,7 @@ const User = require('./models/User');
 
 // updateProducts();
 
-mongoose.connect('mongodb+srv://batraneharika90:neha3003@cluster0.cdqls.mongodb.net/SmallBusinessMarketplace?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://batraneharika90:neha3003@cluster0.cdqls.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Database connected");
 

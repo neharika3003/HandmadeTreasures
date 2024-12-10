@@ -20,7 +20,7 @@ app.use(
       secret: "secret-key",
       resave: false,
       saveUninitialized: false,
-      store: MongoStore.create({ mongoUrl: "mongodb+srv://batraneharika90:neha3003@cluster0.cdqls.mongodb.net/SmallBusinessMarketplace?retryWrites=true&w=majority&appName=Cluster0" }),
+      store: MongoStore.create({ mongoUrl: "mongodb+srv://batraneharika90:neha3003@cluster0.cdqls.mongodb.net/" }),
       cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
     })
   );
