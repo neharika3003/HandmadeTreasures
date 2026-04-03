@@ -4,9 +4,20 @@ const { sendEmail } = require('../utils/emailService');  // Assuming email servi
 const crypto = require('crypto');
 
 
+const renderAuth = (res, opts = {}) => {
+  const {
+    isSignUp = false,
+    error = null,
+    success = null,
+    formData = {},
+    showOtp = false,
+  } = opts;
+  res.render("auth", { isSignUp, error, success, formData, showOtp });
+};
+
 // Render Signup Page
 exports.getSignup = (req, res) => {
-  res.render("signup");
+  renderAuth(res, { isSignUp: true });
 };
 
 // Handle Signup Form
@@ -36,7 +47,13 @@ exports.postSignup = async (req, res) => {
   try {
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).send("User already exists.");
+    if (existingUser) {
+      return renderAuth(res, {
+        isSignUp: true,
+        error: "User already exists.",
+        formData: { name, email, role: role || "buyer" },
+      });
+    }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -66,17 +83,28 @@ exports.postSignup = async (req, res) => {
       `<p>Your OTP for verifying your account is:</p><h3>${otp}</h3><p>This OTP is valid for 15 minutes.</p>`
     );
 
-    // res.status(200).send("Registration successful! Please check your email for the OTP to verify your account.");
-    res.render('verifyOtp');
+    return renderAuth(res, {
+      showOtp: true,
+      formData: { email },
+      success: "Check your email for the verification code.",
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error registering user.");
+    renderAuth(res, {
+      isSignUp: true,
+      error: "Error registering user. Please try again.",
+      formData: {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role || "buyer",
+      },
+    });
   }
 };
 
-// Render OTP Verification Page
+// Render OTP Verification Page (same UI as login/signup)
 exports.getVerifyOtp = (req, res) => {
-  res.render("verifyOtp"); // Ensure you have a verifyOtp.ejs file in views
+  renderAuth(res, { showOtp: true, formData: {} });
 };
 
 // POST Verify OTP
@@ -86,11 +114,21 @@ exports.postVerifyOtp = async (req, res) => {
   try {
     // Find user by email
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).send("User not found.");
+    if (!user) {
+      return renderAuth(res, {
+        showOtp: true,
+        error: "User not found.",
+        formData: { email },
+      });
+    }
 
     // Check if OTP matches and is not expired
     if (user.verificationToken !== otp || Date.now() > user.tokenExpiry) {
-      return res.status(400).send("Invalid or expired OTP.");
+      return renderAuth(res, {
+        showOtp: true,
+        error: "Invalid or expired OTP.",
+        formData: { email },
+      });
     }
 
     // Mark the user as verified
@@ -99,18 +137,24 @@ exports.postVerifyOtp = async (req, res) => {
     user.tokenExpiry = undefined; // Clear expiry
     await user.save();
 
-    // res.status(200).send("Account verified successfully! You can now log in.");
-    res.render('login');
+    renderAuth(res, {
+      isSignUp: false,
+      success: "Account verified! You can now log in.",
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error verifying account.");
+    renderAuth(res, {
+      showOtp: true,
+      error: "Error verifying account. Please try again.",
+      formData: { email: req.body.email || "" },
+    });
   }
 };
 
 
 // Render Login Page
 exports.getLogin = (req, res) => {
-  res.render("login");
+  renderAuth(res, { isSignUp: false });
 };
 
 // Handle Login Form
@@ -137,23 +181,43 @@ exports.postLogin = async (req, res) => {
   try {
     // Find user by email
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).send("User not found");
+    if (!user) {
+      return renderAuth(res, {
+        isSignUp: false,
+        error: "User not found.",
+        formData: { email },
+      });
+    }
 
     // Check if the user has verified their email
     if (!user.isVerified) {
-      return res.status(403).send("Please verify your email before logging in.");
+      return renderAuth(res, {
+        isSignUp: false,
+        error: "Please verify your email before logging in.",
+        formData: { email },
+      });
     }
 
     // Validate the password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).send("Invalid password");
+    if (!isMatch) {
+      return renderAuth(res, {
+        isSignUp: false,
+        error: "Invalid password.",
+        formData: { email },
+      });
+    }
 
     // Set session and redirect if everything is valid
     req.session.user = user;
     res.redirect("/");
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error logging in");
+    renderAuth(res, {
+      isSignUp: false,
+      error: "Error logging in. Please try again.",
+      formData: { email: req.body.email || "" },
+    });
   }
 };
 

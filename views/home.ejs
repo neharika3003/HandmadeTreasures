@@ -5,35 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home - Handmade Treasures</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
-  <header>
-    <h1>Handmade Treasures</h1>
-    <nav>
-      <a href="/products">Browse Products</a>
-      <!-- Conditional rendering for Seller Profile link -->
 
-      <% if (user && user.role==='buyer') { %> 
-        <!-- Show profile and logout if user is logged in -->
-        <a href="/user/profile" class="btn">Profile</a>
-        <a href="/auth/logout" class="btn">Logout</a>
-      <%} else if (user && user.role === 'seller') { %>
-        <a href="/user/seller-profile">Seller Profile</a>
-        <a href="/seller/orders" class="btn">View Orders</a> <!-- Link to seller's orders -->
-        <a href="/auth/logout" class="btn">Logout</a>
-      <% } else { %>
-        <!-- Show signup if user is not logged in -->
-        <a href="/auth/signup" class="btn">Signup</a>
-        <a href="/auth/login" class="btn">Login</a>
-      <% } %>
-    </nav>
-  </header>
-  
-  <div class="container">
-    <h2>Welcome to Handmade Treasures</h2>
-    <p>Your one-stop platform to buy and sell unique handmade products.</p>
-    <img src="https://i.ytimg.com/vi/6931zNLdpA0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLByl5a0cL5HsKuBkhxZDbPz5yO5iA" alt="homepage img" style="width: 90vw;height: 70vh;">
-    <a class="home-btn" href="/products">Start Exploring</a>
+  <%- include("partials/header", { user: user, pageTitle: "Home" }) %>
+  <div class="hero">
+    <img
+      src="https://curly-silver-uoejlecf04.edgeone.app/still-life-vase-with-artificial-flowers-living-room.jpg"
+      alt="homepage img"
+      class="home-banner"
+    >
+
+    <!-- Overlay Content -->
+    <div class="hero-content">
+      <h2>Welcome to Handmade Treasures</h2>
+      <p>Your one-stop platform to buy and sell unique handmade products.</p>
+      <a class="home-btn" href="/products">Start Exploring</a>
+    </div>
   </div>
 
   <section id="top-picks">
@@ -53,8 +42,10 @@
   <footer>
     <p>&copy; 2024 Handmade Treasures. All Rights Reserved.</p>
   </footer>
+
+  <% if (authModal) { %>
+    <%- include("partials/auth-modal", { authModal: authModal }) %>
+  <% } %>
+
 </body>
 </html>
-
-
-

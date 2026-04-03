@@ -79,7 +79,7 @@ router.get('/product/:id', async (req, res) => {
     if (!product) {
       return res.status(404).send('Product not found');
     }
-    res.render('product-detail', { product });
+    res.render('product-detail', { product, user: req.session.user });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error fetching product details');
@@ -102,7 +102,7 @@ router.get("/category/:category", async (req, res) => {
 
 // Add a new product form (accessible only to sellers)
 router.get("/add", ensureSeller, (req, res) => {
-  res.render("addProduct");
+  res.render("addProduct", { user: req.session.user });
 });
 
 // Handle the form submission for adding a new product

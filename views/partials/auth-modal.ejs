@@ -1,0 +1,94 @@
+<div class="login-popup">
+  <div class="login-popup-content">
+    <a href="/" class="close-button" aria-label="Close">✖</a>
+
+    <% if (authModal.showOtp) { %>
+      <h2>Verify your account</h2>
+      <p class="auth-otp-hint">Enter the code we sent to your email.</p>
+    <% } else { %>
+      <h2><%= authModal.isSignUp ? 'Sign Up' : 'Login' %></h2>
+    <% } %>
+
+    <% if (authModal.error) { %>
+      <p class="auth-error-message"><%= authModal.error %></p>
+    <% } %>
+
+    <% if (authModal.success) { %>
+      <p class="auth-success-message"><%= authModal.success %></p>
+    <% } %>
+
+    <% if (authModal.authHint) { %>
+      <p class="auth-helper-message">
+        <span><%= authModal.authHint.text %></span>
+        <a class="switch-link" href="<%= authModal.authHint.linkHref %>"><%= authModal.authHint.linkLabel %></a>
+      </p>
+    <% } %>
+
+    <% if (authModal.showOtp) { %>
+      <form action="/auth/verify-otp" method="POST">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value="<%= authModal.formData && authModal.formData.email ? authModal.formData.email : '' %>"
+          required
+        />
+        <input
+          type="text"
+          name="otp"
+          placeholder="Enter OTP"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          required
+        />
+        <button type="submit" class="submit-button">Verify</button>
+      </form>
+      <p class="auth-switch">
+        <a class="switch-link" href="/auth/login">Back to login</a>
+      </p>
+    <% } else if (authModal.isSignUp) { %>
+      <form action="/auth/signup" method="POST">
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value="<%= authModal.formData && authModal.formData.name ? authModal.formData.name : '' %>"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value="<%= authModal.formData && authModal.formData.email ? authModal.formData.email : '' %>"
+          required
+        />
+        <input type="password" name="password" placeholder="Password" required />
+        <select name="role">
+          <option value="buyer" <%= authModal.formData && authModal.formData.role === 'seller' ? '' : 'selected' %>>Buyer</option>
+          <option value="seller" <%= authModal.formData && authModal.formData.role === 'seller' ? 'selected' : '' %>>Seller</option>
+        </select>
+        <button type="submit" class="submit-button">Sign Up</button>
+      </form>
+      <p class="auth-switch">
+        Already have an account?
+        <a class="switch-link" href="/auth/login">Login</a>
+      </p>
+    <% } else { %>
+      <form action="/auth/login" method="POST">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value="<%= authModal.formData && authModal.formData.email ? authModal.formData.email : '' %>"
+          required
+        />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit" class="submit-button">Login</button>
+      </form>
+      <p class="auth-switch">
+        Don't have an account?
+        <a class="switch-link" href="/auth/signup">Sign Up</a>
+      </p>
+    <% } %>
+  </div>
+</div>

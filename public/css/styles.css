@@ -21,6 +21,30 @@ a:hover {
   color: #c0392b; /* Slightly darker red on hover */
 }
 
+.site-header {
+  position: relative;
+  height: 70px;          /* fixed header height */
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: visible;     /* allow logo to overflow */
+}
+
+.site-brand {
+  position: relative;
+}
+
+/* Big logo but controlled */
+.logo-img {
+  height: 120px;
+  width: auto;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 button, input[type="submit"] {
   background-color: #e74c3c; /* Vibrant red for primary buttons */
   color: white;
@@ -32,20 +56,20 @@ button, input[type="submit"] {
 }
 
 button:hover, input[type="submit"]:hover {
-  background-color: #c0392b; /* Darker red on hover */
-  transform: translateY(-2px); /* Slight hover lift */
+  background-color: #c0392b;
+  transform: translateY(-2px);
 }
 
 button:focus, input[type="submit"]:focus {
   outline: none;
-  box-shadow: 0 0 10px rgba(231, 76, 60, 0.7); /* Focus effect */
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
 }
 
 /* Header Styles */
 header {
-  background-color: #34495e; /* Dark blue for header */
+  background-color: #ffffff;
   padding: 20px 30px;
-  color: white;
+  color: #34496e;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -56,17 +80,130 @@ header h1 {
 }
 
 nav a {
-  margin: 0 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  color: #34496e;;
   font-size: 18px;
-  color: white;
-  font-weight: 500;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 nav a:hover {
-  text-decoration: underline;
-  color: #ecf0f1; /* Light color on hover */
+  background: rgba(52, 73, 110, 0.1); /* light blue hover */
+  color: #34496e;
+  text-decoration: none;
+  transform: translateY(-1px);
 }
 
+.site-page-title {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.site-nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  color: #34496e;;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.site-nav-link:hover {
+  background: rgba(52, 73, 110, 0.1); /* light blue hover */
+    color: #34496e;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.site-nav-cta {
+  background: #34496e;
+  color: #fff;
+}
+
+.site-nav-cta:hover {
+  background: #3aa8c1; /* darker shade */
+}
+
+/* HERO SECTION */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+}
+
+/* Image */
+.home-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  color: white;
+
+  background: rgba(0, 0, 0, 0.4); /* full overlay */
+}
+
+/* Text */
+.hero-content h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* Button (clean version) */
+.hero-content .home-btn {
+  background-color: #3aa8c1;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0 auto;
+}
+
+
+.hero-content .home-btn:hover {
+  background-color: #34496e;
+}
 /* Home Page */
 .container {
   max-width: 1500px;
@@ -74,22 +211,6 @@ nav a:hover {
   padding: 30px 20px;
 }
 
-/* .home-btn {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  padding: 18px 35px;
-  background-color: #2ecc71; /* Green for primary action button */
-  /*border-radius: 8px;
-  font-size: 18px;
-  color: white;
-  font-weight: bold;
-} */
-
-.home-btn:hover {
-  background-color: #3e5ba4 !important; /* Darker green on hover */
-  color:white;
-}
 
 /* Products Page */
 .products {
@@ -229,6 +350,16 @@ footer p {
 
 /* Mobile and Tablet Responsiveness */
 @media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-nav {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
   .products {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
@@ -488,18 +619,6 @@ footer p {
   box-shadow: 0 0 10px rgba(231, 76, 60, 0.7); /* Focus effect */
 }
 
-/* Styling for back to products link */
-nav a {
-  font-size: 18px;
-  color: #e74c3c;
-  font-weight: 500;
-  margin-right: 15px;
-  text-decoration: none;
-}
-
-nav a:hover {
-  color: #c0392b; /* Slightly darker red on hover */
-}
 
 footer {
   margin-top: 40px;
@@ -537,16 +656,6 @@ header h1 {
   margin-bottom: 1rem;
 }
 
-nav a {
-  margin: 0 10px;
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-nav a:hover {
-  color: #ffcc00;
-}
 
 .container {
   text-align: center;

@@ -1,6 +1,25 @@
-<nav>
-    <a href="/">Home</a>
-    <a href="/auth/login">Login</a>
-    <a href="/auth/signup" class="signup-btn">Signup</a>
+<header class="site-header">
+  <div class="site-brand">
+    <img src="/images/homemadeTreasuresLogo.png" alt="Handmade Treasures Logo" class="logo-img">
+  </div>
+
+  <nav class="site-nav">
+    <a href="/" class="site-nav-link">Home</a>
+    <a href="/products" class="site-nav-link">Products</a>
+
+    <% if (user && user.role === "seller") { %>
+      <a href="/products/add" class="site-nav-link">Add Product</a>
+      <a href="/seller/orders" class="site-nav-link">Orders</a>
+      <a href="/user/seller-profile" class="site-nav-link">Profile</a>
+      <a href="/auth/logout" class="site-nav-link site-nav-cta">Logout</a>
+    <% } else if (user) { %>
+      <a href="/cart" class="site-nav-link">Cart</a>
+      <a href="/orders" class="site-nav-link">Orders</a>
+      <a href="/user/profile" class="site-nav-link">Profile</a>
+      <a href="/auth/logout" class="site-nav-link site-nav-cta">Logout</a>
+    <% } else { %>
+      <a href="/auth/login" class="site-nav-link">Login</a>
+      <a href="/auth/signup" class="site-nav-link site-nav-cta">Sign Up</a>
+    <% } %>
   </nav>
-  
+</header>
