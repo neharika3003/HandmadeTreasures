@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/auth.css">
 </head>
-<body>
+<body class="home-page">
 
   <%- include("partials/header", { user: user, pageTitle: "Home" }) %>
   <div class="hero">
     <img
-      src="https://curly-silver-uoejlecf04.edgeone.app/still-life-vase-with-artificial-flowers-living-room.jpg"
+      src="/images/homepage_img.jpg"
       alt="homepage img"
       class="home-banner"
     >
@@ -43,7 +43,7 @@
     <p>&copy; 2024 Handmade Treasures. All Rights Reserved.</p>
   </footer>
 
-  <% if (authModal) { %>
+  <% if (typeof authModal !== "undefined" && authModal) { %>
     <%- include("partials/auth-modal", { authModal: authModal }) %>
   <% } %>
 

@@ -1,1 +1,33 @@
-<%- include("partials/auth-modal", { authModal }) %>
+<%
+  const resolvedAuthModal =
+    typeof authModal !== "undefined"
+      ? authModal
+      : {
+          isSignUp: typeof isSignUp !== "undefined" ? isSignUp : false,
+          error: typeof error !== "undefined" ? error : null,
+          success: typeof success !== "undefined" ? success : null,
+          formData: typeof formData !== "undefined" ? formData : {},
+          showOtp: typeof showOtp !== "undefined" ? showOtp : false,
+          authHint: typeof authHint !== "undefined" ? authHint : null,
+        };
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <% if (resolvedAuthModal.showOtp) { %>
+      Verify Account
+    <% } else { %>
+      <%= resolvedAuthModal.isSignUp ? "Sign Up" : "Login" %>
+    <% } %>
+    - Handmade Treasures
+  </title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-body">
+  <%- include("partials/auth-modal", { authModal: resolvedAuthModal }) %>
+</body>
+</html>

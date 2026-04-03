@@ -23,12 +23,12 @@ a:hover {
 
 .site-header {
   position: relative;
-  height: 70px;          /* fixed header height */
+  min-height: 70px;
   padding: 0 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  overflow: visible;     /* allow logo to overflow */
+  overflow: visible;
 }
 
 .site-brand {
@@ -39,10 +39,24 @@ a:hover {
 .logo-img {
   height: 120px;
   width: auto;
+  display: block;
+}
 
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+.menu-toggle {
+  display: none;
+  background: #34496e;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+  background: #3aa8c1;
+  box-shadow: none;
+  transform: none;
 }
 
 button, input[type="submit"] {
@@ -137,6 +151,7 @@ nav a:hover {
 .site-nav-cta {
   background: #34496e;
   color: #fff;
+  padding: 0 20px;
 }
 
 .site-nav-cta:hover {
@@ -148,6 +163,7 @@ nav a:hover {
   position: relative;
   width: 100%;
   height: 80vh;
+  min-height: 420px;
   overflow: hidden;
 }
 
@@ -179,7 +195,7 @@ nav a:hover {
 
 /* Text */
 .hero-content h2 {
-  font-size: 36px;
+  font-size: 34px;
   margin-bottom: 10px;
   color: #fff;
 }
@@ -203,6 +219,15 @@ nav a:hover {
 
 .hero-content .home-btn:hover {
   background-color: #34496e;
+}
+
+#top-picks {
+  padding: 22px 20px 40px;
+}
+
+#top-picks h2 {
+  font-size: 28px;
+  margin: 0 0 24px;
 }
 /* Home Page */
 .container {
@@ -251,6 +276,193 @@ nav a:hover {
   font-size: 20px;
   margin: 10px 0;
   color: #2c3e50;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    padding: 12px 20px;
+  }
+
+  .logo-img {
+    height: 56px;
+  }
+
+  .site-nav {
+    gap: 8px;
+  }
+
+  .site-nav-link {
+    font-size: 14px;
+    padding: 0 14px;
+  }
+
+  .hero-content h2 {
+    font-size: 30px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+    padding: 0 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 14px 18px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .site-brand {
+    z-index: 2;
+  }
+
+  .logo-img {
+    height: 56px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-nav {
+    display: none;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(52, 73, 110, 0.12);
+  }
+
+  .site-nav.nav-open {
+    display: flex;
+  }
+
+  .site-nav-link {
+    width: auto;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .hero {
+    height: 62vh;
+    min-height: 360px;
+  }
+
+  .hero-content h2 {
+    font-size: 28px;
+    line-height: 1.2;
+    padding: 0 20px;
+  }
+
+  .hero-content p {
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 360px;
+  }
+
+  .hero-content .home-btn {
+    font-size: 16px;
+    padding: 12px 22px;
+  }
+
+  #top-picks h2 {
+    font-size: 24px;
+  }
+
+  .home-page .site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    z-index: 5;
+    justify-content: flex-start;
+  }
+
+  .home-page .site-brand {
+    display: none;
+  }
+
+  .home-page .menu-toggle {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    margin-top: 0;
+    z-index: 6;
+    background: rgba(20, 31, 54, 0.78);
+    backdrop-filter: blur(6px);
+  }
+
+  .home-page .site-nav {
+    margin-top: 0;
+    padding: 70px 16px 0;
+    border-top: 0;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .home-page .site-nav-link {
+    min-height: 40px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.14);
+  }
+
+  .home-page .site-nav-cta {
+    background: #34496e;
+    color: #fff;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 12px 14px;
+  }
+
+  .logo-img {
+    height: 46px;
+  }
+
+  .menu-toggle {
+    padding: 9px 12px;
+    font-size: 18px;
+  }
+
+  .hero {
+    min-height: 320px;
+  }
+
+  .hero-content h2 {
+    font-size: 24px;
+  }
+
+  .hero-content p {
+    font-size: 14px;
+    padding: 0 16px;
+  }
+
+  .hero-content .home-btn {
+    width: calc(100% - 40px);
+    max-width: 240px;
+  }
+
+  .home-page .menu-toggle {
+    top: 14px;
+    left: 14px;
+  }
+
+  .home-page .site-nav {
+    padding: 64px 14px 0;
+  }
 }
 
 /* .product-card p {

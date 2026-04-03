@@ -1,9 +1,18 @@
 <header class="site-header">
   <div class="site-brand">
-    <img src="/images/homemadeTreasuresLogo.png" alt="Handmade Treasures Logo" class="logo-img">
+    <img src="/images/homemadeTreasuresLogo.png" alt="Logo" class="logo-img">
   </div>
 
-  <nav class="site-nav">
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-label="Toggle navigation"
+    aria-expanded="false"
+    onclick="toggleMenu()"
+  >
+    ☰
+  </button>
+  <nav class="site-nav" id="siteNav">
     <a href="/" class="site-nav-link">Home</a>
     <a href="/products" class="site-nav-link">Products</a>
 
@@ -23,3 +32,17 @@
     <% } %>
   </nav>
 </header>
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById("siteNav");
+    const button = document.querySelector(".menu-toggle");
+
+    if (!nav || !button) return;
+
+    nav.classList.toggle("nav-open");
+    button.setAttribute(
+      "aria-expanded",
+      nav.classList.contains("nav-open") ? "true" : "false"
+    );
+  }
+</script>
