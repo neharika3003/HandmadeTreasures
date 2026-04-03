@@ -1,141 +1,708 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Order History</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - Handmade Treasures</title>
   <link rel="stylesheet" href="/css/styles.css">
   <style>
+    :root {
+      --ink: #34496e;
+      --ink-soft: #7895b2;
+      --body-text: #2d3436;
+      --surface: #ffffff;
+      --surface-soft: #f3f4f7;
+      --surface-blue: #eef5fb;
+      --accent: #3aa8c1;
+      --line: rgba(52, 73, 110, 0.12);
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-      color: #333;
+      color: var(--body-text);
     }
-    h1 {
-      text-align: center;
-      margin-top: 20px;
+
+    .orders-nav-wrap {
+      padding: 0 ;
     }
-    .container {
-      width: 80%;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      text-align: left;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background-color: #007bff;
-      color: white;
-    }
-    td img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      margin-right: 10px;
-      border-radius: 5px;
-    }
-    .order-products {
+
+    .orders-nav {
+      width: auto;
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      position: relative;
     }
-    .order-products p {
+
+    .orders-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+
+    .orders-menu-toggle {
+      display: none;
+      background: #34496e;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      border: none;
+      cursor: pointer;
+    }
+
+    .orders-menu-toggle:hover,
+    .orders-menu-toggle:focus {
+      background: #3aa8c1;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .orders-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .orders-nav-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .orders-nav-links a:hover {
+      background: rgba(52, 73, 110, 0.08);
+      transform: translateY(-1px);
+      color: var(--ink);
+    }
+
+    @media (max-width: 900px) {
+      .orders-nav {
+        padding: 12px 20px;
+      }
+
+      .orders-brand {
+        font-size: 1.15rem;
+      }
+
+      .orders-nav-links {
+        gap: 8px;
+      }
+
+      .orders-nav-links a {
+        font-size: 0.88rem;
+        padding: 0 14px;
+      }
+    }
+
+    .orders-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 20px 56px;
+    }
+
+    .orders-hero {
+      margin-top: 12px;
+      padding: 22px 24px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--surface-blue), var(--surface));
+      box-shadow: var(--shadow);
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(52, 73, 110, 0.08);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .orders-hero h1 {
+      margin: 0 0 8px;
+      text-align: left;
+      font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+      line-height: 1.15;
+      color: var(--ink-soft);
+    }
+
+    .hero-copy {
+      max-width: 700px;
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.55;
+      color: var(--body-text);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat-card {
+      position: relative;
+      z-index: 1;
+      padding: 12px 14px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .stat-label {
+      margin: 0 0 4px;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+    }
+
+    .stat-value {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .orders-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .order-card {
+      overflow: hidden;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .order-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 18px 14px;
+      background: var(--surface-blue);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .order-label {
+      margin: 0 0 6px;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .order-id {
       margin: 0;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      word-break: break-word;
     }
-    .btn {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
+
+    .order-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 0;
     }
-    .btn:hover {
-      background-color: #0056b3;
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 0.85rem;
+      font-weight: 600;
     }
-    .empty {
-      text-align: center;
-      padding: 20px;
-      color: #666;
+
+    .order-id-text {
+      word-break: break-word;
     }
+
+    .status-pill {
+      align-self: center;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    .status-pending {
+      background: #eef5fb;
+      color: var(--ink);
+    }
+
+    .status-shipped {
+      background: #e0f4f7;
+      color: #245f92;
+    }
+
+    .status-delivered {
+      background: #e7f4ec;
+      color: #2d6b57;
+    }
+
+    .status-cancelled {
+      background: #f1f3f6;
+      color: var(--ink-soft);
+    }
+
+    .status-default {
+      background: #eef1f5;
+      color: var(--ink);
+    }
+
+    .order-body {
+      padding: 16px 18px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product-tile {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 12px;
+      background: var(--surface-soft);
+    }
+
+    .product-thumb {
+      width: 62px;
+      height: 62px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      background: #f0f0f0;
+    }
+
+    .product-copy {
+      min-width: 0;
+    }
+
+    .product-title {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .product-copy p {
+      margin: 0;
+      color: var(--body-text);
+      line-height: 1.4;
+      font-size: 0.9rem;
+    }
+
+    .order-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .total-block small {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .total-block strong {
+      font-size: 1.2rem;
+      color: var(--ink);
+    }
+
     .action-buttons {
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
+
     .action-buttons form {
-      display: inline;
+      margin: 0;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border: none;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .action-btn-secondary {
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .action-btn-secondary:hover {
+      background: var(--accent);
+    }
+
+    .action-btn-danger {
+      background: #e74c3c;
+      color: #fff;
+    }
+
+    .action-btn-danger:hover {
+      background: #c0392b;
+    }
+
+    .empty-state {
+      margin-top: 18px;
+      padding: 34px 20px;
+      text-align: center;
+      border-radius: 16px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .empty-state h2 {
+      margin: 0 0 12px;
+      color: var(--ink-soft);
+    }
+
+    .empty-state p {
+      max-width: 520px;
+      margin: 0 auto 24px;
+      color: var(--body-text);
+      line-height: 1.7;
+    }
+
+    .empty-art {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 14px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(58, 168, 193, 0.22), transparent 38%),
+        radial-gradient(circle at 72% 32%, rgba(120, 149, 178, 0.22), transparent 34%),
+        radial-gradient(circle at 50% 70%, rgba(120, 149, 178, 0.18), transparent 40%),
+        var(--surface-soft);
+      box-shadow: inset 0 0 0 1px rgba(52, 73, 110, 0.06);
+    }
+
+    .empty-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 5px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .empty-link:hover {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .orders-nav-wrap {
+        padding: 14px 14px 0;
+      }
+
+      .orders-nav {
+        padding: 14px 18px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .orders-brand {
+        z-index: 2;
+      }
+
+
+      .orders-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .orders-nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(52, 73, 110, 0.12);
+      }
+
+      .orders-nav-links.nav-open {
+        display: flex;
+      }
+
+      .orders-nav-links a {
+        width: auto;
+        justify-content: center;
+        min-height: 44px;
+        font-size: 0.95rem;
+      }
+
+      .orders-shell {
+        padding: 14px 14px 40px;
+      }
+
+      .orders-hero {
+        padding: 18px 16px;
+      }
+
+      .order-card-top,
+      .order-body {
+        padding: 14px;
+      }
+
+      .order-card-top,
+      .order-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .product-tile {
+        align-items: flex-start;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-thumb {
+        width: 56px;
+        height: 56px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Your Order History</h1>
-  <div class="container">
+  <%
+    const currentUser = typeof user !== 'undefined' ? user : null;
+    const orderCount = orders ? orders.length : 0;
+    const activeOrderCount = orders ? orders.filter(order => order.status !== 'Cancelled' && order.status !== 'Delivered').length : 0;
+    const totalSpent = orders ? orders.reduce((sum, order) => sum + (order.totalAmount || 0), 0) : 0;
+  %>
+
+  <div class="orders-nav-wrap">
+    <header class="orders-nav">
+      <h1 class="orders-brand">
+        Your Order History
+      </h1>
+
+      <button
+        class="orders-menu-toggle"
+        type="button"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        onclick="toggleOrdersMenu()"
+      >
+        ☰
+      </button>
+
+      <nav class="orders-nav-links" id="ordersNavLinks" aria-label="Orders page navigation">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+        <a href="/cart">Cart</a>
+        <a href="/orders">Orders</a>
+        <% if (currentUser) { %>
+          <a href="/user/profile">Profile</a>
+          <a href="/auth/logout">Logout</a>
+        <% } %>
+      </nav>
+    </header>
+  </div>
+
+  <main class="orders-shell">
+    <section class="orders-hero">
+      <h1>Your handmade treasures, beautifully tracked.</h1>
+
+
+      <div class="hero-stats">
+        <article class="stat-card">
+          <p class="stat-label">Total Orders</p>
+          <p class="stat-value"><%= orderCount %></p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">Active Orders</p>
+          <p class="stat-value"><%= activeOrderCount %></p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">Total Spent</p>
+          <p class="stat-value">&#8377;<%= totalSpent %></p>
+        </article>
+      </div>
+    </section>
+
     <% if (orders && orders.length > 0) { %>
-      <table>
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Products</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% orders.forEach(order => { %>
-            <tr>
-              <td><%= order._id %></td>
-              <td>
-                <div class="order-products">
-                  <% order.items.forEach(item => { %>
-                    <% if (item.productId) { %>
-                      <p>
-                        <img src="<%= item.productId.image %>" alt="<%= item.productId.title %>">
-                        <%= item.productId.title %> - <%= item.quantity %>
-                      </p>
-                    <% } else { %>
-                      <p>Product details are unavailable</p>
-                    <% } %>
-                  <% }); %>
+      <section class="orders-grid">
+        <% orders.forEach(order => { %>
+          <%
+            const statusName = (order.status || 'Unknown').toLowerCase();
+            const statusClass =
+              statusName === 'pending' ? 'status-pending' :
+              statusName === 'shipped' ? 'status-shipped' :
+              statusName === 'delivered' ? 'status-delivered' :
+              statusName === 'cancelled' ? 'status-cancelled' :
+              'status-default';
+            const itemCount = order.items ? order.items.reduce((count, item) => count + (item.quantity || 0), 0) : 0;
+          %>
+
+          <article class="order-card">
+            <div class="order-card-top">
+              <div>
+                <p class="order-label">Order Reference</p>
+                <div class="order-id">
+                  <span class="order-id-text"><%= order._id %></span>
+                  <div class="order-meta">
+                    <span class="meta-chip"><%= itemCount %> item<%= itemCount === 1 ? '' : 's' %></span>
+                    <span class="meta-chip">Total &#8377;<%= order.totalAmount %></span>
+                  </div>
                 </div>
-              </td>
-              <td>$<%= order.totalAmount %></td>
-              <td><%= order.status %></td>
-              <td>
+              </div>
+
+              <span class="status-pill <%= statusClass %>"><%= order.status %></span>
+            </div>
+
+            <div class="order-body">
+              <div class="products-grid">
+                <% order.items.forEach(item => { %>
+                  <% if (item.productId) { %>
+                    <div class="product-tile">
+                      <img
+                        class="product-thumb"
+                        src="<%= item.productId.image %>"
+                        alt="<%= item.productId.title %>"
+                      >
+                      <div class="product-copy">
+                        <h3 class="product-title"><%= item.productId.title %></h3>
+                        <p>Quantity: <strong><%= item.quantity %></strong></p>
+                        <% if (item.productId.price) { %>
+                          <p>Price: &#8377;<%= item.productId.price %></p>
+                        <% } %>
+                      </div>
+                    </div>
+                  <% } else { %>
+                    <div class="product-tile">
+                      <div class="product-copy">
+                        <h3 class="product-title">Product unavailable</h3>
+                        <p>This product information is no longer available for this order.</p>
+                      </div>
+                    </div>
+                  <% } %>
+                <% }); %>
+              </div>
+
+              <div class="order-footer">
+                <div class="total-block">
+                  <small>Order Total</small>
+                  <strong>&#8377;<%= order.totalAmount %></strong>
+                </div>
+
                 <div class="action-buttons">
-                  <% if (order.status !== 'Cancelled') { %>
+                  <% if (order.status !== 'Cancelled' && order.status !== 'Delivered') { %>
                     <form action="/orders/cancel" method="POST">
                       <input type="hidden" name="orderId" value="<%= order._id %>">
                       <input type="hidden" name="userId" value="<%= userId %>">
-                      <button class="btn" type="submit">Cancel Order</button>
+                      <button class="action-btn action-btn-danger" type="submit">Cancel Order</button>
                     </form>
                   <% } %>
                 </div>
-              </td>
-            </tr>
-          <% }); %>
-        </tbody>
-      </table>
+              </div>
+            </div>
+          </article>
+        <% }); %>
+      </section>
     <% } else { %>
-      <div class="empty">
-        <p>You have no orders yet.</p>
-        <a href="/products" class="btn">Continue Shopping</a>
-      </div>
+      <section class="empty-state">
+        <div class="empty-art"></div>
+        <h2>No orders yet</h2>
+        <p>
+          Once you place your first order, it will appear here with the same calm, pastel look
+          as the rest of your shopping journey.
+        </p>
+        <a href="/products" class="empty-link">Continue Shopping</a>
+      </section>
     <% } %>
-  </div>
+  </main>
+
+  <script>
+    function toggleOrdersMenu() {
+      const nav = document.getElementById("ordersNavLinks");
+      const button = document.querySelector(".orders-menu-toggle");
+
+      if (!nav || !button) return;
+
+      nav.classList.toggle("nav-open");
+      button.setAttribute(
+        "aria-expanded",
+        nav.classList.contains("nav-open") ? "true" : "false"
+      );
+    }
+  </script>
 </body>
 </html>
 
