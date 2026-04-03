@@ -1,130 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Order Details</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details - Handmade Treasures</title>
+  <link rel="stylesheet" href="/css/styles.css">
   <style>
+    :root {
+      --ink: #34496e;
+      --ink-soft: #7895b2;
+      --body-text: #2d3436;
+      --surface: #ffffff;
+      --surface-soft: #f3f4f7;
+      --surface-blue: #eef5fb;
+      --accent: #3aa8c1;
+      --line: rgba(52, 73, 110, 0.12);
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
+      color: var(--body-text);
+    }
+
+    .orders-nav-wrap {
       padding: 0;
-      background-color: #f8f9fa;
-      color: #333;
     }
 
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-      color: #4CAF50;
+    .orders-nav {
+      width: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      position: relative;
     }
 
-    h3, h4 {
-      color: #333;
+    .orders-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
-    .container {
-      width: 80%;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .section {
-      margin-bottom: 20px;
-    }
-
-    p, ul {
-      margin: 5px 0;
-    }
-
-    ul {
-      padding-left: 20px;
-    }
-
-    li {
-      margin: 8px 0;
-    }
-
-    form {
-      margin-top: 20px;
-    }
-
-    select {
-      padding: 5px;
-      margin-right: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      background-color: #4CAF50;
-      color: white;
+    .orders-menu-toggle {
+      display: none;
+      background: #34496e;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
       border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
       cursor: pointer;
     }
 
-    button:hover {
-      background-color: #45a049;
+    .orders-menu-toggle:hover,
+    .orders-menu-toggle:focus {
+      background: #3aa8c1;
+      box-shadow: none;
+      transform: none;
     }
 
-    a {
+    .orders-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .orders-nav-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .orders-nav-links a:hover {
+      background: rgba(52, 73, 110, 0.08);
+      transform: translateY(-1px);
+      color: var(--ink);
+    }
+
+    @media (max-width: 900px) {
+      .orders-nav {
+        padding: 12px 20px;
+      }
+
+      .orders-brand {
+        font-size: 1.15rem;
+      }
+
+      .orders-nav-links {
+        gap: 8px;
+      }
+
+      .orders-nav-links a {
+        font-size: 0.88rem;
+        padding: 0 14px;
+      }
+    }
+
+    .details-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 20px 56px;
+    }
+
+    .details-hero {
+      margin-top: 12px;
+      padding: 22px 24px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--surface-blue), var(--surface));
+      box-shadow: var(--shadow);
+    }
+
+    .details-hero h1 {
+      margin: 0 0 8px;
+      text-align: left;
+      font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+      line-height: 1.15;
+      color: var(--ink-soft);
+    }
+
+    .hero-copy {
+      margin: 0;
+      max-width: 720px;
+      font-size: 0.96rem;
+      line-height: 1.55;
+      color: var(--body-text);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .detail-card {
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 16px 18px 14px;
+      background: var(--surface-blue);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-head h2 {
+      margin: 0;
+      text-align: left;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .card-body {
+      padding: 16px 18px;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .info-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .info-row strong {
+      color: var(--ink);
+    }
+
+    .order-meta-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .meta-chip,
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .meta-chip {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid rgba(52, 73, 110, 0.08);
+    }
+
+    .status-pill {
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .status-pending,
+    .status-placed {
+      background: #eef5fb;
+      color: var(--ink);
+    }
+
+    .status-shipped {
+      background: #e0f4f7;
+      color: #245f92;
+    }
+
+    .status-delivered {
+      background: #e7f4ec;
+      color: #2d6b57;
+    }
+
+    .status-cancelled {
+      background: #f1f3f6;
+      color: var(--ink-soft);
+    }
+
+    .status-default {
+      background: #eef1f5;
+      color: var(--ink);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product-tile {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 12px;
+      background: var(--surface-soft);
+    }
+
+    .product-thumb {
+      width: 62px;
+      height: 62px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      background: #f0f0f0;
+    }
+
+    .product-copy {
+      min-width: 0;
+    }
+
+    .product-title {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .product-copy p {
+      margin: 0;
+      color: var(--body-text);
+      line-height: 1.4;
+      font-size: 0.9rem;
+    }
+
+    .actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .back-link,
+    .status-form button,
+    .status-form select {
+      min-height: 36px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 700;
       text-decoration: none;
-      color: #4CAF50;
-      display: inline-block;
-      margin-top: 20px;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .back-link:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .status-form {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 0;
+    }
+
+    .status-form select {
+      padding: 0 10px;
+      border: 1px solid rgba(52, 73, 110, 0.16);
+      background: #fff;
+      color: var(--body-text);
+    }
+
+    .status-form button {
+      padding: 0 12px;
+      border: none;
+      background: #4CAF50;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .status-form button:hover {
+      background: #45a049;
+    }
+
+    @media (max-width: 768px) {
+      .orders-nav-wrap {
+        padding: 14px 14px 0;
+      }
+
+      .orders-nav {
+        padding: 14px 18px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .orders-brand {
+        z-index: 2;
+      }
+
+      .orders-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .orders-nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(52, 73, 110, 0.12);
+      }
+
+      .orders-nav-links.nav-open {
+        display: flex;
+      }
+
+      .orders-nav-links a {
+        width: auto;
+        justify-content: center;
+        min-height: 44px;
+        font-size: 0.95rem;
+      }
+
+      .details-shell {
+        padding: 14px 14px 40px;
+      }
+
+      .details-hero,
+      .card-body,
+      .card-head {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .details-grid,
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-tile {
+        align-items: flex-start;
+      }
+
+      .product-thumb {
+        width: 56px;
+        height: 56px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Order Details</h1>
+  <%
+    const currentUser = typeof user !== 'undefined' ? user : null;
+    const statusName = (order.status || 'Unknown').toLowerCase();
+    const statusClass =
+      statusName === 'placed' ? 'status-placed' :
+      statusName === 'pending' ? 'status-pending' :
+      statusName === 'shipped' ? 'status-shipped' :
+      statusName === 'delivered' ? 'status-delivered' :
+      statusName === 'cancelled' ? 'status-cancelled' :
+      'status-default';
+    const itemCount = order.items ? order.items.reduce((count, item) => count + (item.quantity || 0), 0) : 0;
+  %>
 
-  <div class="container">
-    <div class="section">
-      <h3>Order Information</h3>
-      <p><strong>Order ID:</strong> <%= order._id %></p>
-      <p><strong>Buyer Name:</strong> <%= order.buyerId.name %></p> <!-- Updated -->
-      <p><strong>Status:</strong> <%= order.status %></p>
-    </div>
-    
-    <div class="section">
-      <h3>Shipping Information</h3>
-      <p><strong>Address:</strong> <%= order.buyerId?.address || 'Not provided' %></p>
-      <p><strong>Contact:</strong> <%= order.buyerId?.contact || 'Not provided' %></p>
-    </div>
+  <div class="orders-nav-wrap">
+    <header class="orders-nav">
+      <h2 class="orders-brand">Order Details</h2>
 
-    <div class="section">
-      <h3>Ordered Products</h3>
-      <ul>
-        <% order.items.forEach(item => { %>
-          <% if (item.productId) { %>
-            <li><strong><%= item.productId.title %></strong> - Quantity: <%= item.quantity %></li>
-          <% } else { %>
-            <li>Product details unavailable</li>
-          <% } %>
-        <% }); %>
-      </ul>
-    </div>
+      <button
+        class="orders-menu-toggle"
+        type="button"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        onclick="toggleOrdersMenu()"
+      >
+        ☰
+      </button>
 
-    <form action="/seller/orders/<%= order._id %>/status" method="POST">
-      <h4>Update Status</h4>
-      <select name="status">
-        <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
-        <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
-        <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
-        <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
-      </select>
-      <button type="submit">Update Status</button>
-    </form>
-
-    <a href="/seller/orders">Back to Orders</a>
+      <nav class="orders-nav-links" id="ordersNavLinks" aria-label="Order details navigation">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+        <a href="/seller/orders">Orders</a>
+        <% if (currentUser) { %>
+          <a href="/user/seller-profile">Profile</a>
+          <a href="/auth/logout">Logout</a>
+        <% } %>
+      </nav>
+    </header>
   </div>
+
+  <main class="details-shell">
+    <section class="details-hero">
+      <h1>Customer order details</h1>
+      <p class="hero-copy">
+        Review buyer information, shipping details, and every product in this order before updating its fulfillment status.
+      </p>
+      <div class="order-meta-line">
+        <span class="meta-chip"><%= order._id %></span>
+        <span class="meta-chip"><%= itemCount %> item<%= itemCount === 1 ? '' : 's' %></span>
+        <span class="status-pill <%= statusClass %>"><%= order.status %></span>
+      </div>
+    </section>
+
+    <section class="details-grid">
+      <article class="detail-card">
+        <div class="card-head">
+          <h2>Ordered Products</h2>
+        </div>
+        <div class="card-body">
+          <div class="products-grid">
+            <% order.items.forEach(item => { %>
+              <% if (item.productId) { %>
+                <div class="product-tile">
+                  <% if (item.productId.image) { %>
+                    <img
+                      class="product-thumb"
+                      src="<%= item.productId.image %>"
+                      alt="<%= item.productId.title %>"
+                    >
+                  <% } %>
+                  <div class="product-copy">
+                    <h3 class="product-title"><%= item.productId.title %></h3>
+                    <div class="product-meta">
+                      <p>Quantity: <strong><%= item.quantity %></strong></p>
+                      <% if (item.productId.price) { %>
+                        <p>Per item: <strong>&#8377;<%= item.productId.price %></strong></p>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+              <% } else { %>
+                <div class="product-tile">
+                  <div class="product-copy">
+                    <h3 class="product-title">Product unavailable</h3>
+                    <p>This product information is no longer available for this order.</p>
+                  </div>
+                </div>
+              <% } %>
+            <% }); %>
+          </div>
+        </div>
+      </article>
+
+      <article class="detail-card">
+        <div class="card-head">
+          <h2>Buyer & Shipping</h2>
+        </div>
+        <div class="card-body">
+          <div class="info-list">
+            <div class="info-row">
+              <strong>Buyer Name:</strong>
+              <span><%= order.buyerId?.name || 'Unknown Buyer' %></span>
+            </div>
+            <% if (order.buyerId?.email) { %>
+              <div class="info-row">
+                <strong>Email:</strong>
+                <span><%= order.buyerId.email %></span>
+              </div>
+            <% } %>
+            <div class="info-row">
+              <strong>Address:</strong>
+              <span><%= order.buyerId?.address || 'Not provided' %></span>
+            </div>
+            <div class="info-row">
+              <strong>Contact:</strong>
+              <span><%= order.buyerId?.contact || 'Not provided' %></span>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <a href="/seller/orders" class="back-link">Back to Orders</a>
+            <form class="status-form" action="/seller/orders/<%= order._id %>/status" method="POST">
+              <select name="status">
+                <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+              </select>
+              <button type="submit">Update Status</button>
+            </form>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    function toggleOrdersMenu() {
+      const nav = document.getElementById("ordersNavLinks");
+      const button = document.querySelector(".orders-menu-toggle");
+
+      if (!nav || !button) return;
+
+      nav.classList.toggle("nav-open");
+      button.setAttribute(
+        "aria-expanded",
+        nav.classList.contains("nav-open") ? "true" : "false"
+      );
+    }
+  </script>
 </body>
 </html>
-

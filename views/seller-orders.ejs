@@ -191,7 +191,7 @@
 
     .order-card-top {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 14px;
       padding: 16px 18px 14px;
@@ -518,10 +518,29 @@
         padding: 14px;
       }
 
-      .order-card-top,
       .order-footer {
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      .order-card-top {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+      }
+
+      .order-id {
+        flex-wrap: nowrap;
+        min-width: 0;
+      }
+
+      .order-meta {
+        flex-wrap: nowrap;
+      }
+
+      .status-pill {
+        flex-shrink: 0;
       }
 
       .order-overview {
@@ -622,7 +641,6 @@
                   <span class="order-id-text"><%= order._id %></span>
                   <div class="order-meta">
                     <span class="meta-chip"><%= itemCount %> item<%= itemCount === 1 ? '' : 's' %></span>
-                    <span class="meta-chip"><%= order.buyerId ? order.buyerId.name : "Unknown Buyer" %></span>
                   </div>
                 </div>
               </div>
