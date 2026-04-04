@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Placed - Handmade Treasures</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <meta http-equiv="refresh" content="5;url=/orders">
+  <style>
+    :root {
+      --ink: #34496e;
+      --ink-soft: #7895b2;
+      --body-text: #2d3436;
+      --surface: #ffffff;
+      --surface-soft: #f3f4f7;
+      --surface-blue: #eef5fb;
+      --success: #4CAF50;
+      --line: rgba(52, 73, 110, 0.12);
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: var(--body-text);
+      background: linear-gradient(180deg, #f8fbff 0%, #f3f4f7 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .success-card {
+      width: min(100%, 680px);
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .success-head {
+      padding: 22px 24px;
+      background: linear-gradient(135deg, #e8f6eb, var(--surface-blue));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .success-badge {
+      width: 64px;
+      height: 64px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: var(--success);
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(76, 175, 80, 0.24);
+    }
+
+    .success-head h1 {
+      margin: 16px 0 8px;
+      text-align: left;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--ink);
+    }
+
+    .success-head p {
+      margin: 0;
+      line-height: 1.6;
+      color: var(--body-text);
+    }
+
+    .success-body {
+      padding: 22px 24px 24px;
+    }
+
+    .order-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .meta-card {
+      padding: 14px 16px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 14px;
+      background: var(--surface-soft);
+    }
+
+    .meta-label {
+      margin: 0 0 6px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-soft);
+    }
+
+    .meta-value {
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--ink);
+      word-break: break-word;
+    }
+
+    .success-note {
+      margin: 0 0 18px;
+      line-height: 1.6;
+      color: var(--body-text);
+    }
+
+    .success-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .success-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 5px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .success-link-primary {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .success-link-primary:hover {
+      background: #3aa8c1;
+      color: #fff;
+    }
+
+    .success-link-secondary {
+      background: var(--surface-blue);
+      color: var(--ink);
+    }
+
+    .success-link-secondary:hover {
+      background: #dcecf8;
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <main class="success-card">
+    <section class="success-head">
+      <div class="success-badge">✓</div>
+      <h1>Your order placed successfully🎉</h1>
+      <p>
+        We’ve saved your order and you’ll be redirected to your order history in 5 seconds.
+      </p>
+    </section>
+
+    <section class="success-body">
+      <div class="order-meta">
+        <article class="meta-card">
+          <p class="meta-label">Order ID</p>
+          <p class="meta-value"><%= orderId %></p>
+        </article>
+        <article class="meta-card">
+          <p class="meta-label">Total Amount</p>
+          <p class="meta-value">&#8377;<%= totalAmount %></p>
+        </article>
+      </div>
+
+      <p class="success-note">
+        If the page doesn’t redirect automatically, you can use the button below to view your orders right away.
+      </p>
+
+      <div class="success-actions">
+        <a href="/orders" class="success-link success-link-primary">Go to Order History</a>
+        <a href="/products" class="success-link success-link-secondary">Continue Shopping</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    setTimeout(function () {
+      window.location.href = "/orders";
+    }, 5000);
+  </script>
+</body>
+</html>
