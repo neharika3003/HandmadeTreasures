@@ -1,164 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Cart</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - Handmade Treasures</title>
   <link rel="stylesheet" href="/css/styles.css">
   <style>
+    :root {
+      --ink: #34496e;
+      --ink-soft: #7895b2;
+      --body-text: #2d3436;
+      --surface: #ffffff;
+      --surface-soft: #f3f4f7;
+      --surface-blue: #eef5fb;
+      --accent: #3aa8c1;
+      --danger: #e74c3c;
+      --line: rgba(52, 73, 110, 0.12);
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
       margin: 0;
+      color: var(--body-text);
+    }
+
+    .cart-nav-wrap {
       padding: 0;
-      color: #333;
     }
-    h1 {
-      text-align: center;
-      margin-top: 20px;
+
+    .cart-nav {
+      width: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      position: relative;
     }
-    .container {
-      width: 60%;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
+
+    .cart-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
+
+    .cart-menu-toggle {
+      display: none;
+      background: #34496e;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 1;
+      border: none;
+      cursor: pointer;
     }
-    th, td {
-      text-align: left;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
+
+    .cart-menu-toggle:hover,
+    .cart-menu-toggle:focus {
+      background: #3aa8c1;
+      box-shadow: none;
+      transform: none;
     }
-    th {
-      background-color: #007bff;
-      color: white;
-    }
-    td img {
-      width: 85px;
-      height: 76px;
-      object-fit: cover;
-      margin-right: 10px;
-      border-radius: 5px;
-    }
-    .cart-product {
+
+    .cart-nav-links {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
-    .summary {
-      text-align: right;
-      font-size: 1.2em;
-      margin-top: 10px;
+
+    .cart-nav-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
-    .form-container {
-      margin-top: 20px;
+
+    .cart-nav-links a:hover {
+      background: rgba(52, 73, 110, 0.08);
+      transform: translateY(-1px);
+      color: var(--ink);
     }
-    .form-container label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
+
+    @media (max-width: 900px) {
+      .cart-nav {
+        padding: 12px 20px;
+      }
+
+      .cart-brand {
+        font-size: 1.15rem;
+      }
+
+      .cart-nav-links {
+        gap: 8px;
+      }
+
+      .cart-nav-links a {
+        font-size: 0.88rem;
+        padding: 0 14px;
+      }
     }
-    .form-container textarea, 
-    .form-container input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+
+    .cart-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 20px 56px;
     }
-    .form-container button {
-      margin-top: 20px;
-      padding: 10px 15px;
-      background-color: #007bff;
-      color: white;
+
+    .cart-hero {
+      margin-top: 12px;
+      padding: 22px 24px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--surface-blue), var(--surface));
+      box-shadow: var(--shadow);
+    }
+
+    .cart-hero h1 {
+      margin: 0 0 8px;
+      text-align: left;
+      font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+      line-height: 1.15;
+      color: var(--ink-soft);
+    }
+
+    .hero-copy {
+      max-width: 700px;
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.55;
+      color: var(--body-text);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat-card {
+      padding: 12px 14px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .stat-label {
+      margin: 0 0 4px;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+    }
+
+    .stat-value {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .cart-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.95fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .cart-card {
+      overflow: hidden;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .card-head {
+      padding: 16px 18px 14px;
+      background: var(--surface-blue);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-head h2 {
+      margin: 0;
+      text-align: left;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .card-body {
+      padding: 16px 18px;
+    }
+
+    .cart-items {
+      display: grid;
+      gap: 12px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      border-radius: 12px;
+      background: var(--surface-soft);
+    }
+
+    .cart-thumb {
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      background: #f0f0f0;
+    }
+
+    .cart-item-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .cart-item-title {
+      margin: 0 0 6px;
+      font-size: 0.98rem;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .cart-item-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cart-item-meta p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--body-text);
+      line-height: 1.4;
+    }
+
+    .remove-form {
+      margin: 0;
+    }
+
+    .remove-btn,
+    .checkout-btn {
+      min-height: 38px;
+      padding: 0 14px;
       border: none;
-      border-radius: 4px;
+      border-radius: 5px;
+      font-size: 0.88rem;
+      font-weight: 700;
       cursor: pointer;
     }
-    .form-container button:hover {
-      background-color: #0056b3;
+
+    .remove-btn {
+      background: var(--danger);
+      color: #fff;
     }
-    .empty-cart {
+
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--body-text);
+    }
+
+    .summary-row strong {
+      color: var(--ink);
+    }
+
+    .summary-total {
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .shipping-form {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field-group label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .field-group textarea,
+    .field-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid rgba(52, 73, 110, 0.16);
+      border-radius: 8px;
+      font: inherit;
+      color: var(--body-text);
+      background: #fff;
+    }
+
+    .field-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .checkout-btn {
+      background: var(--ink);
+      color: #fff;
+      justify-self: start;
+    }
+
+    .checkout-btn:hover {
+      background: var(--accent);
+    }
+
+    .empty-state {
+      margin-top: 18px;
+      padding: 34px 20px;
       text-align: center;
-      padding: 20px;
-      color: #666;
+      border-radius: 16px;
+      border: 1px solid rgba(52, 73, 110, 0.08);
+      background: var(--surface);
+      box-shadow: var(--shadow);
     }
+
+    .empty-state h2 {
+      margin: 0 0 12px;
+      color: var(--ink-soft);
+    }
+
+    .empty-state p {
+      margin: 0 0 18px;
+      color: var(--body-text);
+      line-height: 1.6;
+    }
+
     .continue-shopping {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #007bff;
-      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 5px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 700;
     }
+
     .continue-shopping:hover {
-      text-decoration: underline;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .cart-nav-wrap {
+        padding: 14px 14px 0;
+      }
+
+      .cart-nav {
+        padding: 14px 18px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .cart-brand {
+        z-index: 2;
+      }
+
+      .cart-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cart-nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(52, 73, 110, 0.12);
+      }
+
+      .cart-nav-links.nav-open {
+        display: flex;
+      }
+
+      .cart-nav-links a {
+        width: auto;
+        justify-content: center;
+        min-height: 44px;
+        font-size: 0.95rem;
+      }
+
+      .cart-shell {
+        padding: 14px 14px 40px;
+      }
+
+      .cart-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-item {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .cart-thumb {
+        width: 60px;
+        height: 60px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Your Cart</h1>
-  <div class="container">
-    <% if (cart && cart.items.length > 0) { %>
-      <table>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% cart.items.forEach(item => { %>
-            <tr>
-              <td>
-                <div class="cart-product">
-                  <img src="<%= item.productId.image %>" alt="<%= item.productId.title %>">
-                  <%= item.productId.title %>
-                </div>
-              </td>
-              <td><%= item.quantity %></td>
-              <td>$<%= item.productId.price %></td>
-              <td>$<%= item.quantity * item.productId.price %></td>
-              <td>
-                <form action="/cart/remove" method="POST">
-                  <input type="hidden" name="productId" value="<%= item.productId._id %>" />
-                  <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Remove</button>
-                </form>
-              </td>
-            </tr>
-          <% }); %>
-        </tbody>
-      </table>
+  <%
+    const currentUser = typeof user !== "undefined" ? user : null;
+    const cartItems = cart && cart.items ? cart.items : [];
+    const totalItems = cartItems.reduce((count, item) => count + (item.quantity || 0), 0);
+    const totalAmount = cartItems.reduce((sum, item) => sum + ((item.quantity || 0) * (item.productId?.price || 0)), 0);
+  %>
 
-      <div class="summary">
-        <p>Total: $<%= cart.items.reduce((total, item) => total + item.quantity * item.productId.price, 0) %></p>
-      </div>
+  <div class="cart-nav-wrap">
+    <header class="cart-nav">
+      <h1 class="cart-brand">Your Cart</h1>
 
-      <div class="form-container">
-        <h3>Shipping Details</h3>
-        <form action="/orders/create" method="POST">
-          <label for="address">Address:</label>
-          <textarea id="address" name="address" required></textarea>
+      <button
+        class="cart-menu-toggle"
+        type="button"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        onclick="toggleCartMenu()"
+      >
+        ☰
+      </button>
 
-          <label for="contact">Contact Number:</label>
-          <input type="text" id="contact" name="contact" pattern="[0-9]{10}" required />
-
-          <button type="submit">Place Order</button>
-        </form>
-      </div>
-    <% } else { %>
-      <div class="empty-cart">
-        <p>Your cart is empty.</p>
-        <a href="/products" class="continue-shopping">Continue Shopping</a>
-      </div>
-    <% } %>
+      <nav class="cart-nav-links" id="cartNavLinks" aria-label="Cart page navigation">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+        <a href="/cart">Cart</a>
+        <a href="/orders">Orders</a>
+        <% if (currentUser) { %>
+          <a href="/user/profile">Profile</a>
+          <a href="/auth/logout">Logout</a>
+        <% } %>
+      </nav>
+    </header>
   </div>
+
+  <main class="cart-shell">
+    <section class="cart-hero">
+      <h1>Your handmade picks, ready to check out.</h1>
+      <p class="hero-copy">
+        Review every item, confirm your shipping details, and place your order.
+      </p>
+
+      <div class="hero-stats">
+        <article class="stat-card">
+          <p class="stat-label">Cart Items</p>
+          <p class="stat-value"><%= totalItems %></p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">Unique Products</p>
+          <p class="stat-value"><%= cartItems.length %></p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">Cart Total</p>
+          <p class="stat-value">&#8377;<%= totalAmount %></p>
+        </article>
+      </div>
+    </section>
+
+    <% if (cart && cart.items.length > 0) { %>
+      <section class="cart-layout">
+        <article class="cart-card">
+          <div class="card-head">
+            <h2>Cart Items</h2>
+          </div>
+          <div class="card-body">
+            <div class="cart-items">
+              <% cart.items.forEach(item => { %>
+                <div class="cart-item">
+                  <img class="cart-thumb" src="<%= item.productId.image %>" alt="<%= item.productId.title %>">
+                  <div class="cart-item-copy">
+                    <h3 class="cart-item-title"><%= item.productId.title %></h3>
+                    <div class="cart-item-meta">
+                      <p>Quantity: <strong><%= item.quantity %></strong></p>
+                      <p>Per item: <strong>&#8377;<%= item.productId.price %></strong></p>
+                      <p>Total: <strong>&#8377;<%= item.quantity * item.productId.price %></strong></p>
+                    </div>
+                  </div>
+                  <form class="remove-form" action="/cart/remove" method="POST">
+                    <input type="hidden" name="productId" value="<%= item.productId._id %>">
+                    <button class="remove-btn" type="submit">Remove</button>
+                  </form>
+                </div>
+              <% }); %>
+            </div>
+          </div>
+        </article>
+
+        <article class="cart-card">
+          <div class="card-head">
+            <h2>Order Summary</h2>
+          </div>
+          <div class="card-body">
+            <div class="summary-list">
+              <div class="summary-row">
+                <span>Total Items</span>
+                <strong><%= totalItems %></strong>
+              </div>
+              <div class="summary-row">
+                <span>Products</span>
+                <strong><%= cartItems.length %></strong>
+              </div>
+              <div class="summary-row summary-total">
+                <span>Total</span>
+                <strong>&#8377;<%= totalAmount %></strong>
+              </div>
+            </div>
+
+            <form class="shipping-form" action="/orders/create" method="POST">
+              <div class="field-group">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" required></textarea>
+              </div>
+
+              <div class="field-group">
+                <label for="contact">Contact Number</label>
+                <input type="text" id="contact" name="contact" pattern="[0-9]{10}" required>
+              </div>
+
+              <button class="checkout-btn" type="submit">Place Order</button>
+            </form>
+          </div>
+        </article>
+      </section>
+    <% } else { %>
+      <section class="empty-state">
+        <h2>Your cart is empty</h2>
+        <p>Add a few products and come back here to place your order.</p>
+        <a href="/products" class="continue-shopping">Continue Shopping</a>
+      </section>
+    <% } %>
+  </main>
+
+  <script>
+    function toggleCartMenu() {
+      const nav = document.getElementById("cartNavLinks");
+      const button = document.querySelector(".cart-menu-toggle");
+
+      if (!nav || !button) return;
+
+      nav.classList.toggle("nav-open");
+      button.setAttribute(
+        "aria-expanded",
+        nav.classList.contains("nav-open") ? "true" : "false"
+      );
+    }
+  </script>
 </body>
 </html>
 
