@@ -8,7 +8,7 @@
 * **Name:** Mehak Sharma
 * **Roll Number:** 2210991919
 
-* * **Name:** Neharika
+* **Name:** Neharika
 * **Roll Number:** 2210990605
 
 ---
